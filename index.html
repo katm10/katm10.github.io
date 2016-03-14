@@ -7,15 +7,81 @@
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <style>
+  body {
+      font: 20px Montserrat, sans-serif;
+      line-height: 1.8;
+      color: #000000;
+  }
+  p {font-size: 16px;}
+  .margin {margin-bottom: 45px;}
+  .bg-1 { 
+      background-color: #1abc9c; /* Green */
+      color: #ffffff;
+  }
+  .bg-2 { 
+      background-color: #474e5d; /* Dark Blue */
+      color: #ffffff;
+  }
+  .bg-3 { 
+      background-color: #ffffff; /* White */
+      color: #555555;
+  }
+  .bg-4 { 
+      background-color: #2f2f2f; /* Black Gray */
+      color: #fff;
+      font-size: 10px;
+  }
+  .container-fluid {
+      padding-top: 70px;
+      padding-bottom: 70px;
+  }
+  .navbar {
+      padding-top: 15px;
+      padding-bottom: 15px;
+      border: 0;
+      border-radius: 0;
+      margin-bottom: 0;
+      font-size: 12px;
+      letter-spacing: 5px;
+  }
+  .navbar-nav  li a:hover {
+      color: #1abc9c !important;
+  }
+  </style>
 </head>
 <body>
 
-<div class="container">
-  <div class="jumbotron">
+<nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav nav-pills">
+         <li class="active"><a data-toggle="pill" href="#home">Home</a></li>
+        <li><a data-toggle="pill" href="#menu1">Coding</a></li>
+         <li><a data-toggle="pill" href="#menu2">Volunteering</a></li>
+</ul>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="tab-content">
+  
+  <div id="home" class="tab-pane fade in active">
+    <div class="container">
+     <div class="jumbotron">
     <h1>Katherine Mohr</h1>
     <p>Katherine is a ninth grader at Burlingame High School. There, she is a member of the Interact Club, Girls Who Code Club, and Beyond Borders Club, as well as a dedicated worker in the business section of BHS's robotics team, the Iron Panthers. In her free time, Katherine enjoys playing tennis, as she is on the BHS tennis team, and finding new opportunities in her area, such as volunteering and articipating in coding classes, challenges, and hackathons. In fact, Katherine recently got second in the Resilience Challenge, a social impact challenge in San Francisco.</p> 
   </div>
-  <div class="row">
+  <div class="row bg-1">
+  <h2 class="text-center">Recent Projects</h2><br>
     <div class="col-sm-4">
       <h3>Speedy Digits</h3>
       <p>Katherine is currently working on an Android game, Speedy Digits. You can see the code for it</p>
@@ -29,7 +95,26 @@
       <p>Katherine will be participating in a hack-a-thon at Udacity on Thursday!</p>
     </div>
   </div>
+  </div>
+  </div>
+
+  <div id="menu1" class="tab-pane fade">
+    <h3>Coding</h3>
+    <p></p>
+  </div>
+  <div id="menu2" class="tab-pane fade">
+    <h3>Volunteering</h3>
+    <p>Some content in menu 2.</p>
+  </div>
 </div>
+<footer class="container-fluid bg-4 text-center">
+<h5>Contact:</h5>
+<a href="http://www.instagram.com/katm.10" class="bg-4">Instagram</a>
+<a href="https://www.facebook.com/profile.php?id=100009913069219"class="bg-4">Facebook</a>
+<a href="mailto:katm10@live.com"class="bg-4">Email</a>
+</footer>
+
+
 
 </body>
 </html>
