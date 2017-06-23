@@ -340,7 +340,7 @@ body {
   background: url(../img/desk-background.JPG) repeat-x 0px 135px;
   background-size: 100% auto;
   background-attachment: scroll;
-
+  overflow: scroll;
   font-size: 14px;
   line-height: 1.6;
   font-family: "Fira Sans", sans-serif;
