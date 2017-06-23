@@ -13,8 +13,12 @@
   src: local('Josefin Slab Bold'), local('JosefinSlab-Bold'), url(https://fonts.gstatic.com/s/josefinslab/v7/NbE6ykYuM2IyEwxQxOIi2HNuWYKPzoeKl5tYj8yhly0.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
 }
-.font-effect-3d-float {
-
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Raleway'), local('Raleway-Regular'), url(https://fonts.gstatic.com/s/raleway/v11/0dTEPzkLWceF7z0koJaX1A.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
 }
 @font-face {
   font-family: 'Fira Sans';
@@ -43,11 +47,12 @@ html {
 
 header {
   position:relative;
-  height: 300px;
+  height: 280px;
   overflow: hidden;
   z-index: 1;
   font-family: 'Josefin Slab';
   font-weight: bolder;
+  -webkit-column-cont
 }
 
 .small-slab{
@@ -66,8 +71,8 @@ header {
   width: 100%;
   height: 100%;
   background-image: linear-gradient(#e8c7c9, #e78b90);
-  transform: skewY(-6deg);
-  transform-origin: top left;
+  transform: skewY(7deg);
+  transform-origin: top right;
   opacity: 0.5;
   z-index: -1;
 }
@@ -77,6 +82,70 @@ header {
    padding:0;
    line-height:.25em;
 
+}
+#container{
+  margin: 0;
+  padding: 0;
+}
+#left {
+      font-family: 'Raleway';
+      margin-top: 0;
+      width: 53%;
+      float: left;
+    }
+#right {
+  text-align: right;
+  margin-right: 7%;
+  margin-top: 0;
+  padding: 0;
+  /* Change this to whatever the width of your left column is*/
+}
+.clear {
+  clear: both;
+}
+
+div.contain
+{
+  font-family: Raleway;
+  margin: 0;
+	text-align: center;
+}
+
+div.contain a
+{
+    color: #FFF;
+    text-decoration: none;
+    font: 20px Raleway;
+    position:relative;
+    margin: 0px 10px;
+    padding: 0px;
+    z-index: 1;
+    cursor: pointer;
+}
+
+div.highlightTextOut a
+{
+    color: rgba(255, 255, 255, 0.3);
+}
+
+div.highlightTextOut a:before, div.highlightTextIn a:before
+{
+    position: absolute;
+    color: #FFF;
+    top: 0px;
+    left: 0px;
+    padding: 0px;
+    overflow: hidden;
+    content: attr(alt);
+    transition: all 0.3s;
+    transform: scale(0.8);
+    opacity: 0;
+}
+
+div.highlightTextOut a:hover:before, div.highlightTextIn a:hover:before
+{
+    transform: scale(1);
+    opacity: 1;
 }
 article,
 aside,
