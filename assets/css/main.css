@@ -1,4 +1,22 @@
 @font-face {
+  font-family: 'Josefin Slab';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Josefin Slab Light'), local('JosefinSlab-Light'), url(https://fonts.gstatic.com/s/josefinslab/v7/NbE6ykYuM2IyEwxQxOIi2E4GofcKVZz6wtzX_QUIqsI.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+/* latin */
+@font-face {
+  font-family: 'Josefin Slab';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Josefin Slab Bold'), local('JosefinSlab-Bold'), url(https://fonts.gstatic.com/s/josefinslab/v7/NbE6ykYuM2IyEwxQxOIi2HNuWYKPzoeKl5tYj8yhly0.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+.font-effect-3d-float {
+
+}
+@font-face {
   font-family: 'Fira Sans';
   font-style: normal;
   font-weight: 400;
@@ -20,12 +38,23 @@
 html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%; }
+  -webkit-text-size-adjust: 100%;
+}
 
 header {
-  position: relative;
+  position:relative;
   height: 300px;
   overflow: hidden;
+  z-index: 1;
+  font-family: 'Josefin Slab';
+  font-weight: bolder;
+}
+
+.small-slab{
+  font-family: 'Josefin Slab';
+  font-weight: 300;
+  font-size: 75px;
+
 }
 
 .header__bg {
@@ -36,9 +65,18 @@ header {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: linear-gradient(#ff9d2f, #ff6126);
+  background-image: linear-gradient(#e8c7c9, #e78b90);
   transform: skewY(-6deg);
   transform-origin: top left;
+  opacity: 0.5;
+  z-index: -1;
+}
+
+.no-space{
+  margin-bottom: 0;
+   padding:0;
+   line-height:.25em;
+
 }
 article,
 aside,
