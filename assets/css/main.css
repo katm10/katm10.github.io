@@ -46,13 +46,13 @@ html {
 }
 
 header {
-  position:relative;
   height: 280px;
   overflow: hidden;
   z-index: 1;
   font-family: 'Josefin Slab';
   font-weight: bolder;
-  -webkit-column-cont
+  padding: 0;
+  margin: 0;
 }
 
 .small-slab{
@@ -75,6 +75,7 @@ header {
   transform-origin: top right;
   opacity: 0.5;
   z-index: -1;
+  height: 280px;
 }
 
 .header__sl {
@@ -336,16 +337,17 @@ th {
   padding: 0; }
 
 body {
-  /*background: url(../img/desk-background.JPG) repeat-x 0px 135px;
+  background: url(../img/desk-background.JPG) repeat-x 0px 135px;
   background-size: 100% auto;
   background-attachment: scroll;
+
   font-size: 14px;
   line-height: 1.6;
   font-family: "Fira Sans", sans-serif;
   color: #666;
   -webkit-font-smoothing: antialiased;
   -webkit-text-size-adjust: 100%;
-  margin: 0;*/
+  margin: 0;
 }
 
 ::selection {
