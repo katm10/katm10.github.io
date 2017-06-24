@@ -561,7 +561,7 @@ input[type="button"] {
       .footer #button{
       	width:35px;
       	height:35px;
-      	border: #727172 12px solid;
+      	border: #ada1a5 12px solid;
       	border-radius:35px;
       	margin:0 auto;
       	position:relative;
@@ -574,7 +574,7 @@ input[type="button"] {
       .footer #button:hover{
       	width:35px;
       	height:35px;
-      	border: #3A3A3A 12px solid;
+      	border: #ada1a5 12px solid;
       	-webkit-transition: all 1s ease;
           -moz-transition: all 1s ease;
           -o-transition: all 1s ease;
@@ -603,7 +603,7 @@ input[type="button"] {
           -o-transition: all 1s ease;
           -ms-transition: all 1s ease;
           transition: all 1s ease;
-      	height: 10em;
+      	height: 12em;
       }
       .footer #container{
       	margin-top:5px;
@@ -612,25 +612,32 @@ input[type="button"] {
         position:relative;
         top:0;
         left:0;
-      	background: #3A3A3A;
+      	background: #ada1a5;
+        border: 5px solid blue;
+
       }
       .footer #cont{
         position:relative;
         top:-45px;
-        right:190px;
-      	width:150px;
       	height:auto;
       	margin:0 auto;
+        width: 50%;
+        border: 5px solid green;
+
       }
       .footer_center{
-      	width:500px;
+      	width:inherit;
       	float:left;
-        text-align:center;
+        border: 5px solid red;
+
       }
       .footer h3{
-      	font-family: 'Helvetica';
+      	font-family: 'Raleway';
+        font-style: italic;
       	font-size: 30px;
       	font-weight: 100;
       	margin-top:70px;
-      	margin-left:40px;
+      	margin-left: 0%;
+        text-align: left;
+        border: 5px solid black;
       }
