@@ -6,4 +6,5 @@ window.onload = function (){
   console.log(pix);
   document.body.style.height = pix + 'px';
   console.log(document.body.style.height);
+
 }

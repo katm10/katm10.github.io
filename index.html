@@ -1,49 +1,165 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>Katherine Mohr</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="shortcut icon" href="assets/img/bitmoji.PNG">
-  <link rel="stylesheet" href="assets/css/main.css" />
-</head>
-<body id='body'>
-  <header>
-    <div id="container" >
-      <div class="contain highlightTextOut" id = "left">
-        <a alt="HOME">HOME</a>
-        <a alt="LATEST HACKS">LATEST HACKS</a>
-        <a alt="SKILLSET">SKILLSET</a>
-        <a alt="FAVORITES">FAVORITES</a>
-        <a alt="AWARDS">AWARDS</a>
-        <a alt="CONTACT">CONTACT</a>
-      </div>
-      <div id = "right">
-        <h1 class="page-title no-space" style ="font-size:100px">Katherine</h1>
-        <h1 class="page-title no-space small-slab">Mohr</h1>
-      </div>
-      <div class="clear"></div>
-    </div>
-    <div class="header__sl"></div>
-    <div class="header__bg"></div>
-  </header>
-  <div class="page-home">
-    <script src="assets/js/jquery-2.1.4.min.js"></script>
-    <script src="assets/js/functions.js" type="text/javascript"></script>
-  </body>
-  <div class="footer">
-    <div id="button"></div>
-    <div id="container">
-      <div class="word-box">
-        <h3 >"It is kind of fun to do the impossible"</h3>
-        <p>-Walt Disney</p>
-        <p style="line-height: 0; font-style: normal; text-align: right; font-size:.45em">Copyright © 2017. <a href="http://katm10.github.io/">Katherine Mohr</a>. All rights reserved.</p>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-      </div>
-    </div>
-  </div>
-  </html>
+<html><head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+        <script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="main.css" rel="stylesheet" type="text/css">
+    </head><body>
+        <div class="cover">
+            <div class="navbar">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="programming.html"><span>Programming</span></a>
+                        <a class="navbar-brand" href="volunteer.html"><span>Volunteering</span></a>
+                        <a class="navbar-brand" href="other.html"><span>Other</span></a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="navbar-ex-collapse">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="active">
+                                <a href="index.html">Home</a>
+                            </li>
+                            <li>
+                                <a href="about.html">About</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="cover-image" style="background-image: url(https://unsplash.imgix.net/photo-1418065460487-3e41a6c84dc5?q=25&amp;fm=jpg&amp;s=127f3a3ccf4356b7f79594e05f6c840e);" height="1000"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <img src="img/shegala.jpg" class="center-block img-circle img-responsive small" height="400" width="400">
+                        <h1 class="text-inverse">Katherine Mohr</h1>
+                        <p class="text-inverse"></p>
+                        <br>
+                        <br>
+                        <a class="btn btn-lg btn-primary" href="about.html">About</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="fullcarousel-example" data-interval="false" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="item">
+                                    <img src="img/resilience1.jpg">
+                                    <div class="carousel-caption">
+                                        <h2>Resilience Challenge</h2>
+                                        <p class="text-info">
+                                            <a href="programming.html">Learn More...</a>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="hidden-xs item">
+                                    <img src="img/udacity.PNG">
+                                    <div class="carousel-caption">
+                                        <h2>Girls Who Code Udacity Hack-a-Thon</h2>
+                                        <p>
+                                            <a href="programming.html">Learn More...</a>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <img src="img/speedydigits.jpg">
+                                    <div class="carousel-caption">
+                                        <h2>Speedy Digits</h2>
+                                        <p>
+                                            <a href="programming.html">Learn More...</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            <div class="item active"><img src="img/sharon2.PNG"><div class="carousel-caption"><h2>Sharon won the We Hack Too Hack-a-Thon!</h2><p><a href="programming.html">Learn More...</a></p></div></div></div>
+                            <a class="left carousel-control" href="#fullcarousel-example" data-slide="prev"><i class="icon-prev fa fa-angle-left"></i></a>
+                            <a class="right carousel-control" href="#fullcarousel-example" data-slide="next"><i class="icon-next fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <img src="img/winterformal.jpg" class="img-responsive">
+                    </div>
+                    <div class="col-md-6">
+                        <h1 class="text-primary">About</h1>
+                        <p>Katherine is a ninth grader at Burlingame High School. There, she is a
+                            member of the Interact Club, Girls Who Code Club, and Beyond Borders Club,
+                            as well as a dedicated worker in the business section of BHS's robotics
+                            team, the Iron Panthers. In her free time, Katherine enjoys playing tennis,
+                            as she is on the BHS tennis team, and finding new opportunities in her
+                            area, such as volunteering and articipating in coding classes, challenges,
+                            and hackathons. In fact, Katherine recently got second in the Resilience
+                            Challenge, a social impact challenge in San Francisco. Recently, she also
+                            attended the Girls Who Code Udacity Hack-a-Thon, the She++ 3rd Annual Gala,
+                            and the GTGTC Code Camp at Stanford. Katherine is very passionate about
+                            STEM, and more specifically, computer science, and loves learning more
+                            about science with others who share her passion.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section section-primary"></div>
+        <div class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="text-center">Hobbies</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <img src="img/coding.png" class="center-block img-responsive img-thumbnail" href="programming.html">
+                        <div class="col-md-12">
+                            <h2 class="text-center text-muted">Programming</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <img src="img/volunteer.png" href="volunteer.html" class="center-block img-responsive img-thumbnail " width="270">
+                        <div class="col-md-12">
+                            <h2 class="text-center text-muted">Volunteering</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <img src="img/team.png" href="other.html" class="center-block img-circle img-responsive" width="270">
+                        <div class="col-md-12">
+                            <h2 class="text-center text-muted">Other</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="section section-primary">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>Contact:</h3>
+                        <a href="mailto:katm10@live.com"><i class="fa fa-3x fa-envelope fa-fw text-inverse"></i></a>
+                        <a href="https://www.facebook.com/profile.php?id=100009913069219"><i class="fa fa-3x fa-facebook-square fa-fw text-inverse"></i></a>
+                        <a href="instagram.com/katm.10"><i class="fa fa-3x fa-fw fa-instagram text-inverse"></i></a>
+                        <a href="www.linkedin.com/in/katherinemohr"><i class="fa fa-3x fa-fw fa-linkedin-square text-inverse"></i></a>
+                        <a href="https://github.com/katm10"><i class="fa fa-3x fa-fw edin-square text-inverse fa-github"></i></a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="text-right">©Katherine Mohr 2016</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    
+
+</body></html>
