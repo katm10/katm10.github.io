@@ -335,6 +335,9 @@ AFRAME.registerComponent('gps-place', {
 window.onload = function(){
 	
 	var camera = document.getElementById('camera');
+	var sphere = document.getElementById('sphere')
+
+	sphere.setAttribute
 	
 	camera.addEventListener('componentchanged', function (evt) {
 		switch(evt.detail.name){
@@ -395,10 +398,8 @@ window.onload = function(){
 	</div>
 	
 	<a-scene embedded artoolkit='sourceType: webcam;'><!--  -->
-		
 		<a-camera id="camera" user-height="1.6" gps-position compass-rotation><!--  --></a-camera>
-		<a-sphere radius = "0.5"></a-sphere>
-		
+		<a-sphere id="sphere" position="5 5 5" radius = "0.35"></a-sphere>
 	</a-scene>
 </body>
 </html>
