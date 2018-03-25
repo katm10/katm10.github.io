@@ -335,7 +335,7 @@ AFRAME.registerComponent('gps-place', {
 window.onload = function(){
 	
 	var queryString = decodeURIComponent(window.location.search);
-	shorter = queryString.substring(1);
+	shorter = queryString.substring(8);
 	strings = shorter.split(",,");
 	yString = strings[1];
 	xString = strings[0]
