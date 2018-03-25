@@ -3,62 +3,50 @@
 <head>
 
 	<body>
-		<p>Version 15</p>
+		<p>Version 14</p>
 		<p id="text"></p>
 		<p id="results"></p>
 	</body>
 </head>
 <script>
 	window.onload = function() {
-
 function finalVelocity(initialVel, accel, time) {
 			console.log("Final velocity: " + (initialVel + accel * time))
 			return (initialVel + accel * time);
 		}
-
 		//calculates distance given accel
 		function distanceGA(initialVel, time, accel) {
 			console.log("distance: " + (initialVel * time + (.5) * accel * time * time))
 			return initialVel * time + (.5) * accel * time * time;
 			
-
 		}
-
 		//calc dist given velocity
 		function distanceGV(initialVel, finalVel, time) {
 			console.log("distance: " + (avgVel * time))
 			var avgVel = (finalVel + initialVel) / 2;
 			return avgVel * time;
 			
-
 		}
-
 		//will give position in Aframe's weird int things, -9.80665  for 
 		function findPosition(accel, initVel, initCoor, elapTime) {
 			console.log("position: " + (accel * elapTime * elapTime + initVel * elapTime + initCoor))
 			return accel * elapTime * elapTime + initVel * elapTime + initCoor;
 			
-
 		}
-
 		//force applied from phone,  will need to be used separately for x, y and z
 		function findForce(accel) {
 			var phoneMass = .13;
 			console.log("force: " + (accel*phoneMass))
 			return accel * phoneMass;
 			
-
 		}
-
 		//will get acceleration for projectile, pass in force calculated from phone's mass 
 		//and the mass of that projectile (ex: pingpong ball, baseball)
 		function findAcc(force, mass) {
 			console.log("acceleration: " + (force / mass))
 			return force / mass;
 			
-
 		}
-
 		//calcs projectile's initial velocity given phone's acc, time intvl of acc, mass of proj
 		function findProjInitVel(phoneAcc, time, projMass) {
 			var initForce = findForce(phoneAcc);
@@ -67,9 +55,7 @@ function finalVelocity(initialVel, accel, time) {
 			console.log("inital velocity: " + projInitVel)
 			return projInitVel;
 			
-
 		}
-
 		//currently for floating parabolas, will need to overload or otherwise add in phoneHeight for true time
 		function findTimeFromYAcc(yAcc, time) {
 			var baseballInitVel = findProjInitVel(yAcc, time, .145);
@@ -91,13 +77,10 @@ function finalVelocity(initialVel, accel, time) {
 			console.log("time hit floor: " + (timeHitFloor))
 			return timeHitFloor;
 			
-
 		}
-
 		//pass in phone's xAcc, yAcc, time intvl of acc
 		function findTotXDisp(xAcc, yAcc, time) {
 			console.log("total x displacement: " + (dispX))
-
 			var initXVel = findProjInitVel(xAcc, time, .145);
 			var timeHitFloor = findTimeFromYAcc(yAcc, time);
 			var dispX = initXVel * timeHitFloor
@@ -115,7 +98,6 @@ function finalVelocity(initialVel, accel, time) {
 			var sinAngle =  yAcc/Math.sqrt(xAcc*xAcc+yAcc*yAcc+zAcc*zAcc);
 			return Math.asin(sinAngle);
 		}
-
 		//function for getting scaled x and y values
 		function getValues(xAcc, yAcc, zAcc, time) {
 			var tenth = findTotXDisp(xAcc, yAcc, time) / 10;
@@ -145,7 +127,6 @@ function finalVelocity(initialVel, accel, time) {
 			console.log("scaledz: " + scaledz)
 			return [scaledx, scaledy, scaledz]
 			
-
 		}
 		
 		//returns time elapsed from throw 
@@ -153,18 +134,13 @@ function finalVelocity(initialVel, accel, time) {
 			console.log("time from x: " + xval/velocity)
 			return xval / velocity;
 			
-
 		}
-
-
 		if (window.DeviceMotionEvent) {
 			window.addEventListener("devicemotion", motion, false);
 		}
 		else {
 			console.log("DeviceMotionEvent is not supported");
 		}
-
-
 		function motion(event) {
 			if ((event.acceleration.x + event.acceleration.y + event.acceleration.z) > 5) {
 				document.getElementById("text").innerHTML = ("Accelerometer: " +
@@ -173,19 +149,14 @@ function finalVelocity(initialVel, accel, time) {
 					event.acceleration.z + ", TIME: " +
 					event.interval
 				);
-				var values = getValues((event.acceleration.x), Math.abs(event.acceleration.y), Math.abs(event.acceleration.z), Math.abs(event.interval));
-				var queryString = "?para1=" + values+ "&" + getYMax(findProjInitVel(Math.abs(event.acceleration.y), event.interval, .145)) + "&"+ getAngle((event.acceleration.x), Math.abs(event.acceleration.y), Math.abs(event.acceleration.z)) +"&"+ findTotXDisp((event.acceleration.x), Math.abs(event.acceleration.y), event.interval);
+				var values = getValues(Math.abs(event.acceleration.x), Math.abs(event.acceleration.y), Math.abs(event.acceleration.z), Math.abs(event.interval));
+				var queryString = "?para1=" + values;
 				window.location.href = "ar.html"+queryString;
-
 			}
-
-
 		}
-
 		
 		
 	}
-
 </script>
 
 </html>
