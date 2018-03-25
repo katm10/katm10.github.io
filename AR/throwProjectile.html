@@ -3,7 +3,7 @@
 <head>
 
 	<body>
-		<p>Version 3</p>
+		<p>Version 4</p>
 		<p id="text"></p>
 		<p id="results"></p>
 	</body>
@@ -148,17 +148,17 @@
 
 
 		function motion(event) {
-			if ((event.acceleration.x + event.acceleration.y + event.acceleration.z) > 5) {
+			if ((event.acceleration.x + event.acceleration.y + event.acceleration.z) > 2) {
 				document.getElementById("text").innerHTML = ("Accelerometer: " +
 					event.acceleration.x + ", " +
 					event.acceleration.y + ", " +
 					event.acceleration.z + ", TIME: " +
 					event.interval
 				);
-								window.location.href = "ar.html";
+				var values = getValues(event.acceleration.x, event.acceleration.y, event.interval);
+				var queryString = "?para1=" + values;
+				window.location.href = "ar.html";
 
-				document.getElementById("results").innerHTML = getValues(event.acceleration.x, event.acceleration.y, event.interval);
-				var queryString = "?para1=" + scaledx + "&para2=" + scaledy;
 			}
 
 
