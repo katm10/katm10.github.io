@@ -3,7 +3,7 @@
 <head>
 
 	<body>
-		<p>Version 12</p>
+		<p>Version 13</p>
 		<p id="text"></p>
 		<p id="results"></p>
 		<p id="angle"></p>
@@ -72,6 +72,19 @@
 			
 
 		}
+		
+		//eqn that solves quadratic
+		function solveQuad(a, b, c) {
+		    var result = (-1 * b + Math.sqrt(Math.pow(b, 2) - (4 * a * c))) / (2 * a);
+		    var result2 = (-1 * b - Math.sqrt(Math.pow(b, 2) - (4 * a * c))) / (2 * a);
+		    if(result.isNaN()) {
+		    	result = 0;
+		    }
+		    if(result2.isNaN()) {
+		    	result2 = 0;
+		    }
+		    return [result, result2];
+		}
 
 		//currently for floating parabolas, will need to overload or otherwise add in phoneHeight for true time
 		function findTimeFromYAcc(yAcc, time,phoneHeight) {
@@ -79,19 +92,20 @@
 			//assuming floating parabola for now, 
 			//var timeHitFloor = -baseballInitVel * 2 / -9.80665;
 			//if raised platform initially
-			//for reference, eqn is 0 = .5-9.80665*t^2 + initVel*t + phoneHeight
+			//for reference, eqn is 0 = .5*-9.80665*t^2 + initVel*t + phoneHeight
 			
+			var solutions = solveQuad(.5*-9.80665,baseballInitVel,phoneHeight);
 			var timeHitFloor;
-			
-			var timeHitFloor1 = (-baseballInitVel+Math.sqrt(baseballInitVel*baseballInitVel-2-9.80665*phoneHeight))/-9.80665;
-			var timeHitFloor2 = (-baseballInitVel-Math.sqrt(baseballInitVel*baseballInitVel-2-9.80665*phoneHeight))/-9.80665;
-			
-			if(timeHitFloor1 > 0) {
-				timeHitFloor = timeHitFloor1;
-			} 
-			else {
-				timeHitFloor = timeHitFloor2;
+			console.log("quad solutions: "+ solutions);
+			if(solutions[0]>solutions[1]) {
+				timeHitFloor=solutions[0];
+			} else if(solutions[1]>solutions[0]) {
+				timeHitFloor=solutions[1];
+			} else {
+				console.error("Quad solutions aren't working properly");
 			}
+			
+			
 			
 			console.log("time hit floor: " + (timeHitFloor))
 			return timeHitFloor;
@@ -159,6 +173,7 @@
 		function getPositions(xAcc, yAcc, zAcc, time) {
 			//1.52 is 5ft in meters
 			var endTime = findTimeFromYAcc(yAcc,time,1.52);
+			console.log("endTime: " + endTime);
 			var intvl = endTime/10; 
 			var xvals = new Array(10);
 			var yvals = new Array(10);
