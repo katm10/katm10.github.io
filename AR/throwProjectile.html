@@ -74,23 +74,25 @@
 		}
 
 		//currently for floating parabolas, will need to overload or otherwise add in phoneHeight for true time
-		function findTimeFromYAcc(yAcc, time) {
+		function findTimeFromYAcc(yAcc, time,phoneHeight) {
 			var baseballInitVel = findProjInitVel(yAcc, time, .145);
 			//assuming floating parabola for now, 
-			var timeHitFloor = -baseballInitVel * 2 / -9.80665;
+			//var timeHitFloor = -baseballInitVel * 2 / -9.80665;
 			//if raised platform initially
 			//for reference, eqn is 0 = .5-9.80665*t^2 + initVel*t + phoneHeight
-			/*
+			
+			var timeHitFloor;
+			
 			var timeHitFloor1 = (-baseballInitVel+Math.sqrt(baseballInitVel*baseballInitVel-2-9.80665*phoneHeight))/-9.80665;
 			var timeHitFloor2 = (-baseballInitVel-Math.sqrt(baseballInitVel*baseballInitVel-2-9.80665*phoneHeight))/-9.80665;
-			var timeHitFloor;
+			
 			if(timeHitFloor1 > 0) {
 				timeHitFloor = timeHitFloor1;
 			} 
 			else {
 				timeHitFloor = timeHitFloor2;
 			}
-			*/
+			
 			console.log("time hit floor: " + (timeHitFloor))
 			return timeHitFloor;
 			
@@ -117,6 +119,10 @@
 		function getAngle(xAcc,yAcc,zAcc) {
 			var sinAngle =  yAcc/Math.sqrt(xAcc*xAcc+yAcc*yAcc+zAcc*zAcc);
 			return Math.asin(sinAngle);
+		}
+		
+		function convertDist(meters) {
+			return meters * 10;
 		}
 
 		//function for getting scaled x and y values
@@ -150,26 +156,58 @@
 			
 		}
 		
+		function getPositions(xAcc, yAcc, zAcc, time) {
+			//1.52 is 5ft in meters
+			var endTime = findTimeFromYAcc(yAcc,time,1.52);
+			var intvl = endTime/10; 
+			var xvals = new Array(10);
+			var yvals = new Array(10);
+			var zvals = new Array(10);
+			for (var i = 1; i <= 10; i++) {
+				var tVal = intvl*i;
+				var xInitVel = findProjInitVel(xAcc, time, .145);
+				var yInitVel = findProjInitVel(yAcc, time, .145);
+				var zInitVel = findProjInitVel(zAcc, time, .145);
+				//set multiplier at 10
+				xvals[i] = 10*distanceGA(xInitVel, tVal, 0);
+				yvals[i] = 10*distanceGA(yInitVel, tVal, -9.80665);
+				zvals[i] = 10*distanceGA(zInitVel, tVal, 0);
+			}
+			console.log("xvals: " + xvals)
+			console.log("yvals: " + yvals)
+			console.log("zvals: " + zvals)
+			return [xvals, yvals, zvals];
+		}
+		
 		//returns time elapsed from throw 
 		function getTfromX(xval, velocity) {
 			console.log("time from x: " + xval/velocity)
 			return xval / velocity;
 			
 		}
+		
 		if (window.DeviceMotionEvent) {
 			window.addEventListener("devicemotion", motion, false);
 		}
 		else {
 			console.log("DeviceMotionEvent is not supported");
 		}
+		
 		function motion(event) {
 			if ((event.acceleration.x + event.acceleration.y + event.acceleration.z) > 5) {
 
-				var values = getValues(Math.abs(event.acceleration.x), Math.abs(event.acceleration.y), Math.abs(event.acceleration.z), Math.abs(event.interval));
+				var values = getPositions(Math.abs(event.acceleration.x), Math.abs(event.acceleration.y), Math.abs(event.acceleration.z), Math.abs(event.interval));
 				var queryString = "?para1=" + values;
 				window.location.href = "ar.html"+queryString;
+				//hopefully will show the stats of the parabola 
+				document.getElementById("angle").innerHTML = ("Angle: "+ getAngle(event.acceleration.x,event.acceleration.y,event.acceleration.z));
+				document.getElementById("maxYHeight").innerHTML = ("MaxYHeight: "+ getYMax(findProjInitVel(event.acceleration.y, event.interval, .145)));
+				document.getElementById("xDisp").innerHTML = ("X-Displacement: "+ findTotXDisp(event.acceleration.x,event.acceleration.y,event.interval));
+
 			}
 		}
+		
+		
 		
 
 		
