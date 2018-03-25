@@ -3,7 +3,7 @@
 <head>
 
 	<body>
-		<p>Version 13</p>
+		<p>Version 14</p>
 		<p id="text"></p>
 		<p id="results"></p>
 		<p id="angle"></p>
@@ -76,19 +76,23 @@
 		//eqn that solves quadratic
 		function solveQuad(a, b, c) {
 		    var result = (-1 * b + Math.sqrt(Math.pow(b, 2) - (4 * a * c))) / (2 * a);
+		    console.log("solution 1: " + result);
 		    var result2 = (-1 * b - Math.sqrt(Math.pow(b, 2) - (4 * a * c))) / (2 * a);
-		    if(result.isNaN()) {
+		    console.log("solution 2: " + result2);
+		    /*if(result.isNaN()) {
 		    	result = 0;
 		    }
 		    if(result2.isNaN()) {
 		    	result2 = 0;
-		    }
+		    } */
 		    return [result, result2];
 		}
 
 		//currently for floating parabolas, will need to overload or otherwise add in phoneHeight for true time
 		function findTimeFromYAcc(yAcc, time,phoneHeight) {
 			var baseballInitVel = findProjInitVel(yAcc, time, .145);
+			console.log("initial Y velocity: "+baseballInitVel);
+			
 			//assuming floating parabola for now, 
 			//var timeHitFloor = -baseballInitVel * 2 / -9.80665;
 			//if raised platform initially
