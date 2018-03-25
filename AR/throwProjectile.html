@@ -88,10 +88,10 @@ function findTotXDisp(xAcc,yAcc,time) {
 //function for getting scaled x and y values
 function getValues(xAcc, yAcc, time){
 	var tenth = findTotXDisp(xAcc, yAcc, time)/10;
-	var xvals;
-	var yvals;
-	var scaledx;
-	var scaledy;
+	var xvals = new Array(10);
+	var yvals = new Array(10);
+	var scaledx = new Array(10);
+	var scaledy = new Array(10);
 	for(var i = 1; i <= 10; i++){
 		scaledx[i] = i;
 		xvals[i] = tenth*i
