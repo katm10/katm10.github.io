@@ -334,6 +334,16 @@ AFRAME.registerComponent('gps-place', {
 });
 window.onload = function(){
 	
+	var queryString = decodeURIComponent(window.location.search);
+	queryString = queryString.substring(1);
+	var queries = queryString.split("&");
+	for (var i = 0; i < queries.length; i++)
+	{
+	  document.write(queries[i] + "<br>");
+	}
+ 
+ 	
+
 	var camera = document.getElementById('camera');
 	var sphere1 = document.getElementById('sphere1')
 	var sphere2 = document.getElementById('sphere2')

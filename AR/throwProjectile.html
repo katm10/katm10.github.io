@@ -156,11 +156,14 @@
 					event.interval
 				);
 				document.getElementById("results").innerHTML = getValues(event.acceleration.x, event.acceleration.y, event.interval);
-
+				var queryString = "?para1=" + scaledx + "&para2=" + scaledy;
+				window.location.href = "ar.html" + queryString;
 			}
 
 
 		}
+
+		
 		
 	}
 
