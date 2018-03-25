@@ -3,67 +3,54 @@
 <head>
 
 	<body>
-		<p>Version 18</p>
+		<p>Version im so done</p>
 		<p id="text"></p>
 		<p id="results"></p>
 		<p id="angle"></p>
 		<p id="maxYHeight"></p>
 		<p id="xDisp"></p>
+		<p id="zDisp"></p>
 	</body>
 </head>
 <script>
 	window.onload = function() {
-
 		function finalVelocity(initialVel, accel, time) {
 			return (initialVel + accel * time);
 		}
-
 		//calculates distance given accel
 		function distanceGA(initialVel, time, accel) {
 			return initialVel * time + (.5) * accel * time * time;
 			
-
 		}
-
 		//calc dist given velocity
 		function distanceGV(initialVel, finalVel, time) {
 			var avgVel = (finalVel + initialVel) / 2;
 			return avgVel * time;
 			
-
 		}
-
 		//will give position in Aframe's weird int things, -9.80665  for 
 		function findPosition(accel, initVel, initCoor, elapTime) {
 			return accel * elapTime * elapTime + initVel * elapTime + initCoor;
 			
-
 		}
-
 		//force applied from phone,  will need to be used separately for x, y and z
 		function findForce(accel) {
 			var phoneMass = .13;
 			return accel * phoneMass;
 			
-
 		}
-
 		//will get acceleration for projectile, pass in force calculated from phone's mass 
 		//and the mass of that projectile (ex: pingpong ball, baseball)
 		function findAcc(force, mass) {
 			return force / mass;
 			
-
 		}
-
 		//calcs projectile's initial velocity given phone's acc, time intvl of acc, mass of proj
 		function findProjInitVel(phoneAcc, time, projMass) {
 			var initForce = findForce(phoneAcc);
 			var accNoGrav = findAcc(initForce, projMass);
 			var projInitVel = finalVelocity(0, accNoGrav, time);
 			return projInitVel;
-			
-
 		}
 		
 		//eqn that solves quadratic
@@ -72,7 +59,6 @@
 		    console.log("solution 1: " + result);
 		    var result2 = (-1 * b - Math.sqrt(Math.pow(b, 2) - (4 * a * c))) / (2 * a);
 		    console.log("solution 2: " + result2);
-		    document.getElementById("results").innerHTML = ("solution: "+ result +", "+ result2)
 		    /*if(result.isNaN()) {
 		    	result = 0;
 		    }
@@ -81,7 +67,6 @@
 		    } */
 		    return [result, result2];
 		}
-
 		//currently for floating parabolas, will need to overload or otherwise add in phoneHeight for true time
 		function findTimeFromYAcc(yAcc, time,phoneHeight) {
 			var baseballInitVel = findProjInitVel(yAcc, time, .145);
@@ -107,17 +92,24 @@
 			console.log("time hit floor: " + (timeHitFloor))
 			return timeHitFloor;
 			
-
 		}
-
 		//pass in phone's xAcc, yAcc, time intvl of acc
 		function findTotXDisp(xAcc, yAcc, time) {
-
 			var initXVel = findProjInitVel(xAcc, time, .145);
 			var timeHitFloor = findTimeFromYAcc(yAcc, time,1.52);
 			var dispX = initXVel*timeHitFloor
 			console.log("total x displacement: " + dispX)
 			return dispX;
+			
+		}
+		
+		//pass in phone's xAcc, yAcc, time intvl of acc
+		function findTotZDisp(zAcc, yAcc, time) {
+			var initZVel = findProjInitVel(zAcc, time, .145);
+			var timeHitFloor = findTimeFromYAcc(yAcc, time,1.52);
+			var dispZ = initZVel*timeHitFloor
+			console.log("total Z displacement: " + dispZ)
+			return dispZ;
 			
 		}
 		
@@ -135,7 +127,6 @@
 		function convertDist(meters) {
 			return meters * 10;
 		}
-
 		//function for getting scaled x and y values
 		function getValues(xAcc, yAcc, zAcc, time) {
 			var tenth = findTotXDisp(xAcc, yAcc, time) / 10;
@@ -181,9 +172,9 @@
 				var yInitVel = findProjInitVel(yAcc, time, .145);
 				var zInitVel = findProjInitVel(zAcc, time, .145);
 				//set multiplier at 10
-				xvals[i] = 10*distanceGA(xInitVel, tVal, 0);
-				yvals[i] = 10*distanceGA(yInitVel, tVal, -9.80665);
-				zvals[i] = 10*distanceGA(zInitVel, tVal, 0);
+				xvals[i-1] = 10*distanceGA(xInitVel, tVal, 0);
+				yvals[i-1] = 10*distanceGA(yInitVel, tVal, -9.80665);
+				zvals[i-1] = 10*distanceGA(zInitVel, tVal, 0);
 			}
 			console.log("xvals: " + xvals)
 			console.log("yvals: " + yvals)
@@ -207,21 +198,20 @@
 		
 		function motion(event) {
 			if ((event.acceleration.x + event.acceleration.y + event.acceleration.z) > 5) {
-				document.getElementById("text").innerHTML = ("acceleration: "+event.acceleration.x + ", "+event.acceleration.y + ", "+event.acceleration.z + ", "+event.interval)
+				document.getElementById("text").innerHTML = ("Accelerations: "+ event.acceleration.x + ", "+event.acceleration.y + ", "+ event.acceleration.z + ", "+event.interval)
 				var values = getPositions(Math.abs(event.acceleration.x), Math.abs(event.acceleration.y), Math.abs(event.acceleration.z), Math.abs(event.interval));
-				//var queryString = "?para1=" + values;
-				//window.location.href = "ar.html"+queryString;
+				var queryString = "?para1=" + values;
+				window.location.href = "ar.html"+queryString;
 				//hopefully will show the stats of the parabola 
 				document.getElementById("angle").innerHTML = ("Angle: "+ getAngle(event.acceleration.x,event.acceleration.y,event.acceleration.z));
 				document.getElementById("maxYHeight").innerHTML = ("MaxYHeight: "+ getYMax(findProjInitVel(event.acceleration.y, event.interval, .145)));
 				document.getElementById("xDisp").innerHTML = ("X-Displacement: "+ findTotXDisp(event.acceleration.x,event.acceleration.y,event.interval));
-
+				document.getElementById("zDisp").innerHTML = ("Z-Displacement: "+ findTotZDisp(event.acceleration.z,event.acceleration.y,event.interval));
 			}
 		}
 		
 		
 		
-
 		
 	}
 </script>

@@ -1,239 +1,444 @@
 <html>
-
 <head>
-
-	<body>
-		<p>Version 20</p>
-		<p id="text"></p>
-		<p id="results"></p>
-		<p id="angle"></p>
-		<p id="maxYHeight"></p>
-		<p id="xDisp"></p>
-		<p id="zDisp"></p>
-	</body>
-</head>
+<script src="https://aframe.io/releases/0.6.1/aframe.min.js"></script>
+<script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.min.js"></script>
+<script>THREEx.ArToolkitContext.baseURL = 'https://jeromeetienne.github.io/AR.js/three.js/'</script>
 <script>
-	window.onload = function() {
-
-		function finalVelocity(initialVel, accel, time) {
-			return (initialVel + accel * time);
+AFRAME.registerComponent('gps-position', {
+	//gps
+	watchId: null,
+	//starting coordinates
+	zeroCrd: null,
+	//sphere coordinates
+	crd: null,
+	
+	schema: {
+		accuracy: {
+			type: 'int',
+			default: 100
+		},
+		'zero-crd-latitude': {
+			type: 'number',
+			default: NaN
+		},
+		'zero-crd-longitude': {
+			type: 'number',
+			default: NaN
 		}
-
-		//calculates distance given accel
-		function distanceGA(initialVel, time, accel) {
-			return initialVel * time + (.5) * accel * time * time;
-			
-
-		}
-
-		//calc dist given velocity
-		function distanceGV(initialVel, finalVel, time) {
-			var avgVel = (finalVel + initialVel) / 2;
-			return avgVel * time;
-			
-
-		}
-
-		//will give position in Aframe's weird int things, -9.80665  for 
-		function findPosition(accel, initVel, initCoor, elapTime) {
-			return accel * elapTime * elapTime + initVel * elapTime + initCoor;
-			
-
-		}
-
-		//force applied from phone,  will need to be used separately for x, y and z
-		function findForce(accel) {
-			var phoneMass = .13;
-			return accel * phoneMass;
-			
-
-		}
-
-		//will get acceleration for projectile, pass in force calculated from phone's mass 
-		//and the mass of that projectile (ex: pingpong ball, baseball)
-		function findAcc(force, mass) {
-			return force / mass;
-			
-
-		}
-
-		//calcs projectile's initial velocity given phone's acc, time intvl of acc, mass of proj
-		function findProjInitVel(phoneAcc, time, projMass) {
-			var initForce = findForce(phoneAcc);
-			var accNoGrav = findAcc(initForce, projMass);
-			var projInitVel = finalVelocity(0, accNoGrav, time);
-			return projInitVel;
+	},
+	
+	init: function () {
+		
+		if(!isNaN(this.data['zero-crd-latitude']) && !isNaN(this.data['zero-crd-longitude'])){
+			this.zeroCrd = {latitude: this.data['zero-crd-latitude'], longitude: this.data['zero-crd-longitude']};
 		}
 		
-		//eqn that solves quadratic
-		function solveQuad(a, b, c) {
-		    var result = (-1 * b + Math.sqrt(Math.pow(b, 2) - (4 * a * c))) / (2 * a);
-		    console.log("solution 1: " + result);
-		    var result2 = (-1 * b - Math.sqrt(Math.pow(b, 2) - (4 * a * c))) / (2 * a);
-		    console.log("solution 2: " + result2);
-		    /*if(result.isNaN()) {
-		    	result = 0;
-		    }
-		    if(result2.isNaN()) {
-		    	result2 = 0;
-		    } */
-		    return [result, result2];
+		this.watchId = this.watchGPS(function(position){
+			this.crd = position.coords;
+			this.crd.latitude -= .01;
+			this.crd.longitude -= .01;
+			this.updatePosition();
+		}.bind(this));
+		
+	},
+	
+	watchGPS: function (success, error) {
+		
+		if(typeof(error) == 'undefined')
+			error = function(err) { console.warn('ERROR('+err.code+'): '+err.message); };
+		
+		if (!("geolocation" in navigator)){
+			error({code: 0, message: 'Geolocation is not supported by your browser'});
+			return;
 		}
-
-		//currently for floating parabolas, will need to overload or otherwise add in phoneHeight for true time
-		function findTimeFromYAcc(yAcc, time,phoneHeight) {
-			var baseballInitVel = findProjInitVel(yAcc, time, .145);
-			console.log("initial Y velocity: "+baseballInitVel);
-			
-			//assuming floating parabola for now, 
-			//var timeHitFloor = -baseballInitVel * 2 / -9.80665;
-			//if raised platform initially
-			//for reference, eqn is 0 = .5*-9.80665*t^2 + initVel*t + phoneHeight
-			
-			var solutions = solveQuad(.5*-9.80665,baseballInitVel,phoneHeight);
-			var timeHitFloor;
-			console.log("quad solutions: "+ solutions);
-			if(solutions[0]>solutions[1]) {
-				timeHitFloor=solutions[0];
-			} else if(solutions[1]>solutions[0]) {
-				timeHitFloor=solutions[1];
-			} else {
-				console.error("Quad solutions aren't working properly");
+		
+		return navigator.geolocation.watchPosition(success, error, {enableHighAccuracy: true, maximumAge: 0, timeout: 27000});
+	},
+	
+	updatePosition: function () {
+		
+		if(this.crd.accuracy > this.data.accuracy) return;
+		
+		if(!this.zeroCrd) this.zeroCrd = this.crd;
+		
+		var p = this.el.getAttribute('position');
+		
+		p.x = this.calcMeters(
+			this.zeroCrd,
+			{
+				longitude: this.crd.longitude,
+				latitude: this.zeroCrd.latitude
 			}
-			
-			
-			console.log("time hit floor: " + (timeHitFloor))
-			return timeHitFloor;
-			
-
-		}
-
-		//pass in phone's xAcc, yAcc, time intvl of acc
-		function findTotXDisp(xAcc, yAcc, time) {
-
-			var initXVel = findProjInitVel(xAcc, time, .145);
-			var timeHitFloor = findTimeFromYAcc(yAcc, time,1.52);
-			var dispX = initXVel*timeHitFloor
-			console.log("total x displacement: " + dispX)
-			return dispX;
-			
-		}
-		
-		//pass in phone's xAcc, yAcc, time intvl of acc
-		function findTotZDisp(zAcc, yAcc, time) {
-
-			var initZVel = findProjInitVel(zAcc, time, .145);
-			var timeHitFloor = findTimeFromYAcc(yAcc, time,1.52);
-			var dispZ = initZVel*timeHitFloor
-			console.log("total Z displacement: " + dispZ)
-			return dispZ;
-			
-		}
-		
-		//function for getting max y
-		function getYMax(initYVel) {
-			return -initYVel/(2*-9.80665)
-		}
-		
-		//function for getting angle formed initially from x-z plane (ground plane)
-		function getAngle(xAcc,yAcc,zAcc) {
-			var sinAngle =  yAcc/Math.sqrt(xAcc*xAcc+yAcc*yAcc+zAcc*zAcc);
-			return Math.asin(sinAngle);
-		}
-		
-		function convertDist(meters) {
-			return meters * 10;
-		}
-
-		//function for getting scaled x and y values
-		function getValues(xAcc, yAcc, zAcc, time) {
-			var tenth = findTotXDisp(xAcc, yAcc, time) / 10;
-			var xvals = new Array(10);
-			var yvals = new Array(10);
-			var zvals = new Array(10);
-			var scaledx = new Array(10);
-			var scaledy = new Array(10);
-			var scaledz = new Array(10);
-			for (var i = 1; i <= 10; i++) {
-				scaledx[i] = i;
-				xvals[i] = tenth * i
-				var xInitVel = findProjInitVel(xAcc, time, .145);
-				var yInitVel = findProjInitVel(yAcc, time, .145);
-				var zInitVel = findProjInitVel(zAcc, time, .145);
-				var tVal = getTfromX(xvals[i], xInitVel);
-				yvals[i] = distanceGA(yInitVel, tVal, -9.80665);
-				zvals[i] = distanceGA(zInitVel, tVal, 0);
-				scaledy[i] = yvals[i] / tenth;
-				scaledz[i] = zvals[i] / tenth;
+		) * (
+			this.crd.longitude > this.zeroCrd.longitude
+				? 1 : -1
+		);
+		p.z = this.calcMeters(
+			this.zeroCrd,
+			{
+				longitude: this.zeroCrd.longitude,
+				latitude: this.crd.latitude
 			}
-			console.log("xvals: " + xvals)
-			console.log("yvals: " + yvals)
-			console.log("zvals: " + zvals)
-			console.log("scaledx: " + scaledx)
-			console.log("scaledy: " + scaledy)
-			console.log("scaledz: " + scaledz)
-			return [xvals, yvals, zvals]
-			
-		}
+		) * (
+			this.crd.latitude > this.zeroCrd.latitude
+				? -1 : 1
+		);
 		
-		function getPositions(xAcc, yAcc, zAcc, time) {
-			//1.52 is 5ft in meters
-			var endTime = findTimeFromYAcc(yAcc,time,1.52);
-			console.log("endTime: " + endTime);
-			var intvl = endTime/10; 
-			var xvals = new Array(10);
-			var yvals = new Array(10);
-			var zvals = new Array(10);
-			for (var i = 1; i <= 10; i++) {
-				var tVal = intvl*i;
-				var xInitVel = findProjInitVel(xAcc, time, .145);
-				var yInitVel = findProjInitVel(yAcc, time, .145);
-				var zInitVel = findProjInitVel(zAcc, time, .145);
-				//set multiplier at 10
-				xvals[i-1] = 10*distanceGA(xInitVel, tVal, 0);
-				yvals[i-1] = 10*distanceGA(yInitVel, tVal, -9.80665);
-				zvals[i-1] = 10*distanceGA(zInitVel, tVal, 0);
-			}
-			console.log("xvals: " + xvals)
-			console.log("yvals: " + yvals)
-			console.log("zvals: " + zvals)
-			return [xvals, yvals, zvals];
-		}
+		this.el.setAttribute('position', p);
 		
-		//returns time elapsed from throw 
-		function getTfromX(xval, velocity) {
-			console.log("time from x: " + xval/velocity)
-			return xval / velocity;
-			
-		}
+	},
+	
+	calcMeters: function(src, dest) {
+		var dlon = THREE.Math.degToRad(dest.longitude - src.longitude);
+		var dlat = THREE.Math.degToRad(dest.latitude - src.latitude);
 		
-		if (window.DeviceMotionEvent) {
-			window.addEventListener("devicemotion", motion, false);
-		}
-		else {
-			console.log("DeviceMotionEvent is not supported");
-		}
+		var a = (Math.sin(dlat / 2) * Math.sin(dlat / 2)) + Math.cos(THREE.Math.degToRad(src.latitude)) * Math.cos(THREE.Math.degToRad(dest.latitude)) * (Math.sin(dlon / 2) * Math.sin(dlon / 2));
+		var angle = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 		
-		function motion(event) {
-			if ((event.acceleration.x + event.acceleration.y + event.acceleration.z) > 5) {
-				document.getElementById("text").innerHTML = ("Accelerations: "+ event.acceleration.x + ", "+event.acceleration.y + ", "+ event.acceleration.z + ", "+event.interval)
-				var values = getPositions(Math.abs(event.acceleration.x), Math.abs(event.acceleration.y), Math.abs(event.acceleration.z), Math.abs(event.interval));
-				var queryString = "?para1=" + values;
-				window.location.href = "ar.html"+queryString;
-				//hopefully will show the stats of the parabola 
-				document.getElementById("angle").innerHTML = ("Angle: "+ getAngle(event.acceleration.x,event.acceleration.y,event.acceleration.z));
-				document.getElementById("maxYHeight").innerHTML = ("MaxYHeight: "+ getYMax(findProjInitVel(event.acceleration.y, event.interval, .145)));
-				document.getElementById("xDisp").innerHTML = ("X-Displacement: "+ findTotXDisp(event.acceleration.x,event.acceleration.y,event.interval));
-				document.getElementById("zDisp").innerHTML = ("Z-Displacement: "+ findTotZDisp(event.acceleration.z,event.acceleration.y,event.interval));
-
+		return angle * 6378160;
+	},
+	
+	remove: function() {
+		if(this.watchId) navigator.geolocation.clearWatch(this.watchId);
+		this.watchId = null;
+	}
+	
+});
+AFRAME.registerComponent('compass-rotation', {
+	
+	lookControls: null,
+	lastTimestamp: 0,
+	heading: null,
+	
+	
+	schema: {
+		fixTime: {
+			type: 'int',
+			default: 2000
+		},
+		orientationEvent: {
+			type: 'string',
+			default: 'auto'
+		}
+	},
+	
+	init: function () {
+		
+		if(typeof(this.el.components['look-controls']) == 'undefined') return;
+		
+		this.lookControls = this.el.components['look-controls'];
+		
+		this.handlerOrientation = this.handlerOrientation.bind(this);
+		
+		if(this.data.orientationEvent == 'auto'){
+			if('ondeviceorientationabsolute' in window){
+				this.data.orientationEvent = 'deviceorientationabsolute';
+			}else if('ondeviceorientation' in window){
+				this.data.orientationEvent = 'deviceorientation';
+			}else{
+				this.data.orientationEvent = '';
+				alert('Compass not supported');
+				return;
 			}
 		}
 		
+		window.addEventListener(this.data.orientationEvent, this.handlerOrientation, false);
+		
+		window.addEventListener('compassneedscalibration', function(event) {
+			alert('Your compass needs calibrating! Wave your device in a figure-eight motion');
+			event.preventDefault();
+		}, true);
+		
+	},
+	
+	tick: function (time, timeDelta) {
+		
+		if(this.heading === null
+		|| this.lastTimestamp > (time - this.data.fixTime)) return;
+		
+		this.lastTimestamp = time;
+		this.updateRotation();
+		
+	},
+	
+	calcCompassHeading: function (alpha, beta, gamma) {
+		
+		// Convert degrees to radians
+		var alphaRad = alpha * (Math.PI / 180);
+		var betaRad = beta * (Math.PI / 180);
+		var gammaRad = gamma * (Math.PI / 180);
+		
+		// Calculate equation components
+		var cA = Math.cos(alphaRad);
+		var sA = Math.sin(alphaRad);
+		var cB = Math.cos(betaRad);
+		var sB = Math.sin(betaRad);
+		var cG = Math.cos(gammaRad);
+		var sG = Math.sin(gammaRad);
+		
+		// Calculate A, B, C rotation components
+		var rA = - cA * sG - sA * sB * cG;
+		var rB = - sA * sG + cA * sB * cG;
+		var rC = - cB * cG;
+		
+		// Calculate compass heading
+		var compassHeading = Math.atan(rA / rB);
+		
+		// Convert from half unit circle to whole unit circle
+		if(rB < 0) {
+			compassHeading += Math.PI;
+		}else if(rA < 0) {
+			compassHeading += 2 * Math.PI;
+		}
+		
+		// Convert radians to degrees
+		compassHeading *= 180 / Math.PI;
+		
+		return compassHeading;
+	},
+	
+	handlerOrientation: function (evt) {
+		
+		var heading = null;
+		
+		//console.log('device orientation event', evt);
+		
+		if(typeof(evt.webkitCompassHeading) != 'undefined'){
+			
+			if(evt.webkitCompassAccuracy < 50){
+				heading = evt.webkitCompassHeading;
+			}else{
+				console.warn('webkitCompassAccuracy is evt.webkitCompassAccuracy');
+			}
+			
+		}else if(evt.alpha !== null){
+			if(evt.absolute === true || typeof(evt.absolute == 'undefined')) {
+				heading = this.calcCompassHeading(evt.alpha, evt.beta, evt.gamma);
+			}else{
+				console.warn('evt.absolute === false');
+			}
+		}else{
+			console.warn('evt.alpha === null');
+		}
+		
+		this.heading = heading;
+		
+	},
+	
+	updateRotation: function() {
+		
+		/*
+		camera.components["look-controls"].yawObject.rotation.y = THREE.Math.degToRad(
+			(
+				360
+				- camera.components["compass-rotation"].heading
+				- (
+					camera.getAttribute('rotation').y
+					- THREE.Math.radToDeg(camera.components["look-controls"].yawObject.rotation.y)
+				)
+			)
+			% 360
+		)
+		*/
 		
 		
-
+		var heading = 360 - this.heading
+		var camera_rotation = this.el.getAttribute('rotation').y;
+		var yaw_rotation = THREE.Math.radToDeg(this.lookControls.yawObject.rotation.y);
+		
+		var offset = ( heading - ( camera_rotation - yaw_rotation ) ) % 360;
+		
+		this.lookControls.yawObject.rotation.y = THREE.Math.degToRad(offset);
+		
+	},
+	
+	remove: function () {
+		if(this.data.orientationEvent)
+			window.removeEventListener(this.data.orientationEvent, this.handlerOrientation, false);
+	}
+	
+});
+AFRAME.registerComponent('gps-place', {
+	
+	cameraGpsPosition: null,
+	deferredInitInterval: 0,
+	
+	schema: {
+		latitude: {
+			type: 'number',
+			default: 0
+		},
+		longitude: {
+			type: 'number',
+			default: 0
+		},
+		cameraSelector: {
+			type: 'string',
+			default: 'a-camera, [camera]'
+		}
+	},
+	
+	init: function () {
+		if(this.deferredInit()) return;
+		this.deferredInitInterval = setInterval(this.deferredInit.bind(this), 1000);
+	},
+	
+	deferredInit: function () {
+		
+		if(!this.cameraGpsPosition){
+			var camera = document.querySelector(this.data.cameraSelector);
+			if(typeof(camera.components['gps-position']) == 'undefined') return;
+			this.cameraGpsPosition = camera.components['gps-position'];
+		}
+		
+		if(!this.cameraGpsPosition.zeroCrd) return;
+		
+		this.updatePosition();
+		
+		clearInterval(this.deferredInitInterval);
+		this.deferredInitInterval = 0;
+		
+		return true;
+	},
+	
+	updatePosition: function() {
+		
+		var p = {x: 0, y: 0, z: 0};
+		
+		p.x = this.cameraGpsPosition.calcMeters(
+			this.cameraGpsPosition.zeroCrd,
+			{
+				longitude: this.data.longitude,
+				latitude: this.cameraGpsPosition.zeroCrd.latitude
+			}
+		) * (
+			this.data.longitude > this.cameraGpsPosition.zeroCrd.longitude
+				? 1 : -1
+		);
+		p.z = this.cameraGpsPosition.calcMeters(
+			this.cameraGpsPosition.zeroCrd,
+			{
+				longitude: this.cameraGpsPosition.zeroCrd.longitude,
+				latitude: this.data.latitude
+			}
+		) * (
+			this.data.latitude > this.cameraGpsPosition.zeroCrd.latitude
+				? -1 : 1
+		);
+		
+		this.el.setAttribute('position', p);
 		
 	}
+	
+	
+});
+window.onload = function(){
+	
+	var queryString = decodeURIComponent(window.location.search);
+	shorter = queryString.substring(8);
+	strings = shorter.split(",,");
+	yString = strings[1];
+	xString = strings[0]
+	zString = strings[2]
+	var xVals = xString.split(",");
+	var yVals = yString.split(",");
+	var zVals = zString.split(",")
+	console.log("xvals: "+xVals);
+	console.log("yvals: "+yVals);
+	console.log("zvals: "+zVals);
+	var camera = document.getElementById('camera');
+	var sphere1 = document.getElementById('sphere1')
+	var sphere2 = document.getElementById('sphere2')
+	var sphere3 = document.getElementById('sphere3')
+	var sphere4 = document.getElementById('sphere4')
+	var sphere5 = document.getElementById('sphere5')
+	var sphere6 = document.getElementById('sphere6')
+	var sphere7 = document.getElementById('sphere7')
+	var sphere8 = document.getElementById('sphere8')
+	var sphere9 = document.getElementById('sphere9')
+	var sphere10 = document.getElementById('sphere10')
+	var spheres = [sphere1, sphere2, sphere3, sphere4, sphere5, sphere6, sphere7, sphere8, sphere9, sphere10];
+	var positions = Array(10)
+	for (var i = 0; i < spheres.length; i++) {
+		xvalue =  (-1*xVals[i])-4
+		yvalue =  yVals[i]
+		zvalue =  (-1*zVals[i])-6
+		positions[i] = xvalue+ " "+ yvalue+" "+zvalue
+		spheres[i].setAttribute("position", positions[i])
+	}
+	
+	console.log("positions: "+ positions)
+	
+	camera.addEventListener('componentchanged', function (evt) {
+		switch(evt.detail.name){
+			case 'rotation':
+				//console.log('camera rotation changed', evt.detail.newData);
+				var
+					compassRotation = camera.components['compass-rotation'],
+					lookControls = camera.components['look-controls']
+				;
+				camera_angle.innerText = evt.detail.newData.y;
+				if(lookControls){
+					yaw_angle.innerText = THREE.Math.radToDeg(lookControls.yawObject.rotation.y);
+				}
+				if(compassRotation){
+					compass_heading.innerText = compassRotation.heading;
+				}
+				break;
+			case 'position':
+				//console.log('camera position changed', evt.detail.newData);
+				var
+					gpsPosition = camera.components['gps-position']
+				;
+				camera_p_x.innerText = evt.detail.newData.x;
+				camera_p_z.innerText = evt.detail.newData.z;
+				if(gpsPosition){
+					if(gpsPosition.crd){
+						crd_longitude.innerText = gpsPosition.crd.longitude;
+						crd_latitude.innerText = gpsPosition.crd.latitude;
+					}
+					if(gpsPosition.zeroCrd){
+						zero_crd_longitude.innerText = gpsPosition.zeroCrd.longitude;
+						zero_crd_latitude.innerText = gpsPosition.zeroCrd.latitude;
+					}
+				}
+				
+				break;
+		}
+	});
+	
+};
 </script>
-
+</head>
+<body style='margin: 0px; overflow: hidden;'>
+	<!--
+	<div style="position: fixed; top: 10px; width:100%; text-align: center; z-index: 1; text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;">
+		<div>
+			coords: <span id="crd_longitude"></span>, <span id="crd_latitude"></span>
+				(zero coords: <span id="zero_crd_longitude"></span>, <span id="zero_crd_latitude"></span>)
+		</div>
+		<div>
+			camera coords: <span id="camera_p_x"></span>, <span id="camera_p_z"></span>
+		</div>
+		<div>
+			compass heading: <span id="compass_heading"></span>,
+			camera angle: <span id="camera_angle"></span>,
+			yaw angle: <span id="yaw_angle"></span>
+		</div>
+	</div>
+	-->
+	<a-scene embedded artoolkit='sourceType: webcam;'><!--  -->
+		<a-camera id="camera" user-height="1.6" gps-position compass-rotation><!--  --></a-camera>
+		<a-sphere hidden id="sphere1"  position="-4 1 -4" gps-position="longitude: 50.469820; latitude: 70.153653" radius = "0.4"></a-sphere>
+		<a-sphere hidden id="sphere2" position="-5 1 -4" gps-position="longitude: 50.469820; latitude: 70.153653" radius = "0.4"></a-sphere>
+		<a-sphere hidden id="sphere3" position="-6 1 -4" gps-position="longitude: 50.469820; latitude: 70.153653" radius = "0.4"></a-sphere>
+		<a-sphere hidden id="sphere4" position="-7 1 -4" gps-position="longitude: 50.469820; latitude: 70.153653" radius = "0.4"></a-sphere>
+		<a-sphere hidden id="sphere5" position="-8 1 -4" gps-position="longitude: 50.469820; latitude: 70.153653" radius = "0.4"></a-sphere>
+		<a-sphere hidden id="sphere6" position="-9 1 -4" gps-position="longitude: 50.469820; latitude: 70.153653" radius = "0.4"></a-sphere>
+		<a-sphere hidden id="sphere7" position="-10 1 -4" gps-position="longitude: 50.469820; latitude: 70.153653" radius = "0.4"></a-sphere>
+		<a-sphere hidden id="sphere8" position="-11 1 -4" gps-position="longitude: 50.469820; latitude: 70.153653" radius = "0.4"></a-sphere>
+		<a-sphere hidden id="sphere9" position="-12 1 -4" gps-position="longitude: 50.469820; latitude: 70.153653" radius = "0.4"></a-sphere>
+		<a-sphere hidden id="sphere10" position="-13 1 -4" gps-position="longitude: 50.469820; latitude: 70.153653" radius = "0.4"></a-sphere>
+	</a-scene>
+</body>
 </html>
