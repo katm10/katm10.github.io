@@ -3,7 +3,7 @@
 <head>
 
 	<body>
-		<p>Version 8</p>
+		<p>Version 9</p>
 		<p id="text"></p>
 		<p id="results"></p>
 	</body>
@@ -148,7 +148,7 @@
 
 
 		function motion(event) {
-			if ((event.acceleration.x + event.acceleration.y + event.acceleration.z) > 2) {
+			if ((event.acceleration.x + event.acceleration.y + event.acceleration.z) > 5) {
 				document.getElementById("text").innerHTML = ("Accelerometer: " +
 					event.acceleration.x + ", " +
 					event.acceleration.y + ", " +
