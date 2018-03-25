@@ -3,54 +3,65 @@
 <head>
 
 	<body>
-		"Throw" the phone
-
-		<p id="maxY"></p>
+		<p>Version 10</p>
+		<p id="text"></p>
+		<p id="results"></p>
 		<p id="angle"></p>
-		<p id="disp"></p>
-
+		<p id="maxYHeight"></p>
+		<p id="xDisp"></p>
 	</body>
 </head>
 <script>
 	window.onload = function() {
 
-function finalVelocity(initialVel, accel, time) {
+		function finalVelocity(initialVel, accel, time) {
 			console.log("Final velocity: " + (initialVel + accel * time))
 			return (initialVel + accel * time);
 		}
+
 		//calculates distance given accel
 		function distanceGA(initialVel, time, accel) {
 			console.log("distance: " + (initialVel * time + (.5) * accel * time * time))
 			return initialVel * time + (.5) * accel * time * time;
 			
+
 		}
+
 		//calc dist given velocity
 		function distanceGV(initialVel, finalVel, time) {
 			console.log("distance: " + (avgVel * time))
 			var avgVel = (finalVel + initialVel) / 2;
 			return avgVel * time;
 			
+
 		}
+
 		//will give position in Aframe's weird int things, -9.80665  for 
 		function findPosition(accel, initVel, initCoor, elapTime) {
 			console.log("position: " + (accel * elapTime * elapTime + initVel * elapTime + initCoor))
 			return accel * elapTime * elapTime + initVel * elapTime + initCoor;
 			
+
 		}
+
 		//force applied from phone,  will need to be used separately for x, y and z
 		function findForce(accel) {
 			var phoneMass = .13;
 			console.log("force: " + (accel*phoneMass))
 			return accel * phoneMass;
 			
+
 		}
+
 		//will get acceleration for projectile, pass in force calculated from phone's mass 
 		//and the mass of that projectile (ex: pingpong ball, baseball)
 		function findAcc(force, mass) {
 			console.log("acceleration: " + (force / mass))
 			return force / mass;
 			
+
 		}
+
 		//calcs projectile's initial velocity given phone's acc, time intvl of acc, mass of proj
 		function findProjInitVel(phoneAcc, time, projMass) {
 			var initForce = findForce(phoneAcc);
@@ -59,7 +70,9 @@ function finalVelocity(initialVel, accel, time) {
 			console.log("inital velocity: " + projInitVel)
 			return projInitVel;
 			
+
 		}
+
 		//currently for floating parabolas, will need to overload or otherwise add in phoneHeight for true time
 		function findTimeFromYAcc(yAcc, time) {
 			var baseballInitVel = findProjInitVel(yAcc, time, .145);
@@ -81,31 +94,31 @@ function finalVelocity(initialVel, accel, time) {
 			console.log("time hit floor: " + (timeHitFloor))
 			return timeHitFloor;
 			
+
 		}
+
 		//pass in phone's xAcc, yAcc, time intvl of acc
 		function findTotXDisp(xAcc, yAcc, time) {
 			console.log("total x displacement: " + (dispX))
+
 			var initXVel = findProjInitVel(xAcc, time, .145);
 			var timeHitFloor = findTimeFromYAcc(yAcc, time);
 			var dispX = initXVel * timeHitFloor
-			document.getElementById("disp").innerHTML ="X Displacement: "+ dispX + " meters"
 			return dispX;
 			
 		}
 		
 		//function for getting max y
 		function getYMax(initYVel) {
-			var y = -initYVel/(2*-9.80665)
-			document.getElementById("maxY").innerHTML = "Maximum Height: "+y + " meters"
-			return y
+			return -initYVel/(2*-9.80665)
 		}
 		
 		//function for getting angle formed initially from x-z plane (ground plane)
 		function getAngle(xAcc,yAcc,zAcc) {
 			var sinAngle =  yAcc/Math.sqrt(xAcc*xAcc+yAcc*yAcc+zAcc*zAcc);
-			document.getElementById("angle").innerHTML = "Angle: "+ Math.asin(sinAngle) + " degrees"
 			return Math.asin(sinAngle);
 		}
+
 		//function for getting scaled x and y values
 		function getValues(xAcc, yAcc, zAcc, time) {
 			var tenth = findTotXDisp(xAcc, yAcc, time) / 10;
@@ -158,6 +171,7 @@ function finalVelocity(initialVel, accel, time) {
 			}
 		}
 		
+		}
 		
 	}
 </script>
