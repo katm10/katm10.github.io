@@ -3,7 +3,7 @@
 <head>
 
 	<body>
-		<p>Version 14</p>
+		<p>Version 16</p>
 		<p id="text"></p>
 		<p id="results"></p>
 		<p id="angle"></p>
@@ -15,13 +15,11 @@
 	window.onload = function() {
 
 		function finalVelocity(initialVel, accel, time) {
-			console.log("Final velocity: " + (initialVel + accel * time))
 			return (initialVel + accel * time);
 		}
 
 		//calculates distance given accel
 		function distanceGA(initialVel, time, accel) {
-			console.log("distance: " + (initialVel * time + (.5) * accel * time * time))
 			return initialVel * time + (.5) * accel * time * time;
 			
 
@@ -29,7 +27,6 @@
 
 		//calc dist given velocity
 		function distanceGV(initialVel, finalVel, time) {
-			console.log("distance: " + (avgVel * time))
 			var avgVel = (finalVel + initialVel) / 2;
 			return avgVel * time;
 			
@@ -38,7 +35,6 @@
 
 		//will give position in Aframe's weird int things, -9.80665  for 
 		function findPosition(accel, initVel, initCoor, elapTime) {
-			console.log("position: " + (accel * elapTime * elapTime + initVel * elapTime + initCoor))
 			return accel * elapTime * elapTime + initVel * elapTime + initCoor;
 			
 
@@ -47,7 +43,6 @@
 		//force applied from phone,  will need to be used separately for x, y and z
 		function findForce(accel) {
 			var phoneMass = .13;
-			console.log("force: " + (accel*phoneMass))
 			return accel * phoneMass;
 			
 
@@ -56,7 +51,6 @@
 		//will get acceleration for projectile, pass in force calculated from phone's mass 
 		//and the mass of that projectile (ex: pingpong ball, baseball)
 		function findAcc(force, mass) {
-			console.log("acceleration: " + (force / mass))
 			return force / mass;
 			
 
@@ -67,7 +61,6 @@
 			var initForce = findForce(phoneAcc);
 			var accNoGrav = findAcc(initForce, projMass);
 			var projInitVel = finalVelocity(0, accNoGrav, time);
-			console.log("inital velocity: " + projInitVel)
 			return projInitVel;
 			
 
@@ -110,7 +103,6 @@
 			}
 			
 			
-			
 			console.log("time hit floor: " + (timeHitFloor))
 			return timeHitFloor;
 			
@@ -119,11 +111,11 @@
 
 		//pass in phone's xAcc, yAcc, time intvl of acc
 		function findTotXDisp(xAcc, yAcc, time) {
-			console.log("total x displacement: " + (dispX))
 
 			var initXVel = findProjInitVel(xAcc, time, .145);
-			var timeHitFloor = findTimeFromYAcc(yAcc, time);
-			var dispX = initXVel * timeHitFloor
+			var timeHitFloor = findTimeFromYAcc(yAcc, time,1.52);
+			var dispX = initXVel*timeHitFloor
+			console.log("total x displacement: " + dispX)
 			return dispX;
 			
 		}
