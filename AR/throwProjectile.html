@@ -3,7 +3,7 @@
 <head>
 
 	<body>
-		<p>Version 17</p>
+		<p>Version 18</p>
 		<p id="text"></p>
 		<p id="results"></p>
 		<p id="angle"></p>
@@ -208,8 +208,8 @@
 			if ((event.acceleration.x + event.acceleration.y + event.acceleration.z) > 5) {
 				document.getElementById("text").innerHTML = ("acceleration: "+event.acceleration.x + ", "+event.acceleration.y + ", "+event.acceleration.z + ", "+event.interval)
 				var values = getPositions(Math.abs(event.acceleration.x), Math.abs(event.acceleration.y), Math.abs(event.acceleration.z), Math.abs(event.interval));
-			//	var queryString = "?para1=" + values;
-			//	window.location.href = "ar.html"+queryString;
+				var queryString = "?para1=" + values;
+				window.location.href = "ar.html"+queryString;
 				//hopefully will show the stats of the parabola 
 				document.getElementById("angle").innerHTML = ("Angle: "+ getAngle(event.acceleration.x,event.acceleration.y,event.acceleration.z));
 				document.getElementById("maxYHeight").innerHTML = ("MaxYHeight: "+ getYMax(findProjInitVel(event.acceleration.y, event.interval, .145)));
