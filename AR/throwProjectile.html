@@ -3,7 +3,7 @@
 <head>
 
 	<body>
-		<p>Version 2</p>
+		<p>Version 3</p>
 		<p id="text"></p>
 		<p id="results"></p>
 	</body>
@@ -157,7 +157,7 @@
 				);
 				document.getElementById("results").innerHTML = getValues(event.acceleration.x, event.acceleration.y, event.interval);
 				var queryString = "?para1=" + scaledx + "&para2=" + scaledy;
-				window.location.href = "ar.html" + queryString;
+				window.location.href = "/ar.html" + queryString;
 			}
 
 
