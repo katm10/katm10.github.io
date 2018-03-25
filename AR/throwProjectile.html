@@ -3,7 +3,7 @@
 <head>
 
 	<body>
-		<p>Version 16</p>
+		<p>Version 17</p>
 		<p id="text"></p>
 		<p id="results"></p>
 		<p id="angle"></p>
@@ -206,7 +206,7 @@
 		
 		function motion(event) {
 			if ((event.acceleration.x + event.acceleration.y + event.acceleration.z) > 5) {
-				document.getElementById("text").innerHTML = (event.acceleration.x + ", "+event.acceleration.y + ", "event.acceleration.z + ", "+event.interval)
+				document.getElementById("text").innerHTML = ("acceleration: "+event.acceleration.x + ", "+event.acceleration.y + ", "+event.acceleration.z + ", "+event.interval)
 				var values = getPositions(Math.abs(event.acceleration.x), Math.abs(event.acceleration.y), Math.abs(event.acceleration.z), Math.abs(event.interval));
 			//	var queryString = "?para1=" + values;
 			//	window.location.href = "ar.html"+queryString;
