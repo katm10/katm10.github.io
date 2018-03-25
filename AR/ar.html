@@ -336,18 +336,10 @@ window.onload = function(){
 	
 	var queryString = decodeURIComponent(window.location.search);
 	queryString = queryString.substring(1);
-	queryString = queryString.substring(1);
-	var queries = queryString.split(",");
-	var scaledX = Array(10);
-	var scaledY = Array(10);
-	for (var i = 0; i < scaledX.length; i++)
-	{
-	  scaledX[i] = queries[i];
-	}
-	for (var i = 0; i < scaledY.length; i++)
-	{
-	  scaledY[i] = queries[i+10];
-	}
+	xString = queryString.substring(1,20);
+	yString = queryString.substring(22);
+	var xVals = xString.split(",");
+	var yVals = yString.split(",");
 
 	var camera = document.getElementById('camera');
 	var sphere1 = document.getElementById('sphere1')
@@ -363,7 +355,7 @@ window.onload = function(){
 
 	var spheres = [sphere1, sphere2, sphere3, sphere4, sphere5, sphere6, sphere7, sphere8, sphere9, sphere10];
 	for (var i = 0; i < spheres.length; i++) {
-		var position = ((-1*scaledX[i])-4)+ " "+ (1+scaledY[i])+" -4";
+		var position = ((-1*xVals[i])-4)+ " "+ (1+yVals[i])+" -4";
 		spheres[i].setAttribute("position", position)
 	}
 	
