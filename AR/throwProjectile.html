@@ -3,45 +3,47 @@
 <head>
 
 	<body>
-		<p>Version im so done</p>
+		<p>Version 14</p>
 		<p id="text"></p>
 		<p id="results"></p>
-		<p id="angle"></p>
-		<p id="maxYHeight"></p>
-		<p id="xDisp"></p>
-		<p id="zDisp"></p>
 	</body>
 </head>
 <script>
 	window.onload = function() {
-		function finalVelocity(initialVel, accel, time) {
+function finalVelocity(initialVel, accel, time) {
+			console.log("Final velocity: " + (initialVel + accel * time))
 			return (initialVel + accel * time);
 		}
 		//calculates distance given accel
 		function distanceGA(initialVel, time, accel) {
+			console.log("distance: " + (initialVel * time + (.5) * accel * time * time))
 			return initialVel * time + (.5) * accel * time * time;
 			
 		}
 		//calc dist given velocity
 		function distanceGV(initialVel, finalVel, time) {
+			console.log("distance: " + (avgVel * time))
 			var avgVel = (finalVel + initialVel) / 2;
 			return avgVel * time;
 			
 		}
 		//will give position in Aframe's weird int things, -9.80665  for 
 		function findPosition(accel, initVel, initCoor, elapTime) {
+			console.log("position: " + (accel * elapTime * elapTime + initVel * elapTime + initCoor))
 			return accel * elapTime * elapTime + initVel * elapTime + initCoor;
 			
 		}
 		//force applied from phone,  will need to be used separately for x, y and z
 		function findForce(accel) {
 			var phoneMass = .13;
+			console.log("force: " + (accel*phoneMass))
 			return accel * phoneMass;
 			
 		}
 		//will get acceleration for projectile, pass in force calculated from phone's mass 
 		//and the mass of that projectile (ex: pingpong ball, baseball)
 		function findAcc(force, mass) {
+			console.log("acceleration: " + (force / mass))
 			return force / mass;
 			
 		}
@@ -50,66 +52,39 @@
 			var initForce = findForce(phoneAcc);
 			var accNoGrav = findAcc(initForce, projMass);
 			var projInitVel = finalVelocity(0, accNoGrav, time);
+			console.log("inital velocity: " + projInitVel)
 			return projInitVel;
-		}
-		
-		//eqn that solves quadratic
-		function solveQuad(a, b, c) {
-		    var result = (-1 * b + Math.sqrt(Math.pow(b, 2) - (4 * a * c))) / (2 * a);
-		    console.log("solution 1: " + result);
-		    var result2 = (-1 * b - Math.sqrt(Math.pow(b, 2) - (4 * a * c))) / (2 * a);
-		    console.log("solution 2: " + result2);
-		    /*if(result.isNaN()) {
-		    	result = 0;
-		    }
-		    if(result2.isNaN()) {
-		    	result2 = 0;
-		    } */
-		    return [result, result2];
+			
 		}
 		//currently for floating parabolas, will need to overload or otherwise add in phoneHeight for true time
-		function findTimeFromYAcc(yAcc, time,phoneHeight) {
+		function findTimeFromYAcc(yAcc, time) {
 			var baseballInitVel = findProjInitVel(yAcc, time, .145);
-			console.log("initial Y velocity: "+baseballInitVel);
-			
 			//assuming floating parabola for now, 
-			//var timeHitFloor = -baseballInitVel * 2 / -9.80665;
+			var timeHitFloor = -baseballInitVel * 2 / -9.80665;
 			//if raised platform initially
-			//for reference, eqn is 0 = .5*-9.80665*t^2 + initVel*t + phoneHeight
-			
-			var solutions = solveQuad(.5*-9.80665,baseballInitVel,phoneHeight);
+			//for reference, eqn is 0 = .5-9.80665*t^2 + initVel*t + phoneHeight
+			/*
+			var timeHitFloor1 = (-baseballInitVel+Math.sqrt(baseballInitVel*baseballInitVel-2-9.80665*phoneHeight))/-9.80665;
+			var timeHitFloor2 = (-baseballInitVel-Math.sqrt(baseballInitVel*baseballInitVel-2-9.80665*phoneHeight))/-9.80665;
 			var timeHitFloor;
-			console.log("quad solutions: "+ solutions);
-			if(solutions[0]>solutions[1]) {
-				timeHitFloor=solutions[0];
-			} else if(solutions[1]>solutions[0]) {
-				timeHitFloor=solutions[1];
-			} else {
-				console.error("Quad solutions aren't working properly");
+			if(timeHitFloor1 > 0) {
+				timeHitFloor = timeHitFloor1;
+			} 
+			else {
+				timeHitFloor = timeHitFloor2;
 			}
-			
-			
+			*/
 			console.log("time hit floor: " + (timeHitFloor))
 			return timeHitFloor;
 			
 		}
 		//pass in phone's xAcc, yAcc, time intvl of acc
 		function findTotXDisp(xAcc, yAcc, time) {
+			console.log("total x displacement: " + (dispX))
 			var initXVel = findProjInitVel(xAcc, time, .145);
-			var timeHitFloor = findTimeFromYAcc(yAcc, time,1.52);
-			var dispX = initXVel*timeHitFloor
-			console.log("total x displacement: " + dispX)
+			var timeHitFloor = findTimeFromYAcc(yAcc, time);
+			var dispX = initXVel * timeHitFloor
 			return dispX;
-			
-		}
-		
-		//pass in phone's xAcc, yAcc, time intvl of acc
-		function findTotZDisp(zAcc, yAcc, time) {
-			var initZVel = findProjInitVel(zAcc, time, .145);
-			var timeHitFloor = findTimeFromYAcc(yAcc, time,1.52);
-			var dispZ = initZVel*timeHitFloor
-			console.log("total Z displacement: " + dispZ)
-			return dispZ;
 			
 		}
 		
@@ -122,10 +97,6 @@
 		function getAngle(xAcc,yAcc,zAcc) {
 			var sinAngle =  yAcc/Math.sqrt(xAcc*xAcc+yAcc*yAcc+zAcc*zAcc);
 			return Math.asin(sinAngle);
-		}
-		
-		function convertDist(meters) {
-			return meters * 10;
 		}
 		//function for getting scaled x and y values
 		function getValues(xAcc, yAcc, zAcc, time) {
@@ -154,32 +125,8 @@
 			console.log("scaledx: " + scaledx)
 			console.log("scaledy: " + scaledy)
 			console.log("scaledz: " + scaledz)
-			return [xvals, yvals, zvals]
+			return [scaledx, scaledy, scaledz]
 			
-		}
-		
-		function getPositions(xAcc, yAcc, zAcc, time) {
-			//1.52 is 5ft in meters
-			var endTime = findTimeFromYAcc(yAcc,time,1.52);
-			console.log("endTime: " + endTime);
-			var intvl = endTime/10; 
-			var xvals = new Array(10);
-			var yvals = new Array(10);
-			var zvals = new Array(10);
-			for (var i = 1; i <= 10; i++) {
-				var tVal = intvl*i;
-				var xInitVel = findProjInitVel(xAcc, time, .145);
-				var yInitVel = findProjInitVel(yAcc, time, .145);
-				var zInitVel = findProjInitVel(zAcc, time, .145);
-				//set multiplier at 10
-				xvals[i-1] = 10*distanceGA(xInitVel, tVal, 0);
-				yvals[i-1] = 10*distanceGA(yInitVel, tVal, -9.80665);
-				zvals[i-1] = 10*distanceGA(zInitVel, tVal, 0);
-			}
-			console.log("xvals: " + xvals)
-			console.log("yvals: " + yvals)
-			console.log("zvals: " + zvals)
-			return [xvals, yvals, zvals];
 		}
 		
 		//returns time elapsed from throw 
@@ -188,29 +135,25 @@
 			return xval / velocity;
 			
 		}
-		
 		if (window.DeviceMotionEvent) {
 			window.addEventListener("devicemotion", motion, false);
 		}
 		else {
 			console.log("DeviceMotionEvent is not supported");
 		}
-		
 		function motion(event) {
 			if ((event.acceleration.x + event.acceleration.y + event.acceleration.z) > 5) {
-				document.getElementById("text").innerHTML = ("Accelerations: "+ event.acceleration.x + ", "+event.acceleration.y + ", "+ event.acceleration.z + ", "+event.interval)
-				var values = getPositions(Math.abs(event.acceleration.x), Math.abs(event.acceleration.y), Math.abs(event.acceleration.z), Math.abs(event.interval));
+				document.getElementById("text").innerHTML = ("Accelerometer: " +
+					event.acceleration.x + ", " +
+					event.acceleration.y + ", " +
+					event.acceleration.z + ", TIME: " +
+					event.interval
+				);
+				var values = getValues(Math.abs(event.acceleration.x), Math.abs(event.acceleration.y), Math.abs(event.acceleration.z), Math.abs(event.interval));
 				var queryString = "?para1=" + values;
 				window.location.href = "ar.html"+queryString;
-				//hopefully will show the stats of the parabola 
-				document.getElementById("angle").innerHTML = ("Angle: "+ getAngle(event.acceleration.x,event.acceleration.y,event.acceleration.z));
-				document.getElementById("maxYHeight").innerHTML = ("MaxYHeight: "+ getYMax(findProjInitVel(event.acceleration.y, event.interval, .145)));
-				document.getElementById("xDisp").innerHTML = ("X-Displacement: "+ findTotXDisp(event.acceleration.x,event.acceleration.y,event.interval));
-				document.getElementById("zDisp").innerHTML = ("Z-Displacement: "+ findTotZDisp(event.acceleration.z,event.acceleration.y,event.interval));
 			}
 		}
-		
-		
 		
 		
 	}
