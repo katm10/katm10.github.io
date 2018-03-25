@@ -72,6 +72,7 @@
 		    console.log("solution 1: " + result);
 		    var result2 = (-1 * b - Math.sqrt(Math.pow(b, 2) - (4 * a * c))) / (2 * a);
 		    console.log("solution 2: " + result2);
+		    document.getElementById("results").innerHTML = ("solution: "+ result +", "+ result)
 		    /*if(result.isNaN()) {
 		    	result = 0;
 		    }
@@ -208,8 +209,8 @@
 			if ((event.acceleration.x + event.acceleration.y + event.acceleration.z) > 5) {
 				document.getElementById("text").innerHTML = ("acceleration: "+event.acceleration.x + ", "+event.acceleration.y + ", "+event.acceleration.z + ", "+event.interval)
 				var values = getPositions(Math.abs(event.acceleration.x), Math.abs(event.acceleration.y), Math.abs(event.acceleration.z), Math.abs(event.interval));
-				var queryString = "?para1=" + values;
-				window.location.href = "ar.html"+queryString;
+				//var queryString = "?para1=" + values;
+				//window.location.href = "ar.html"+queryString;
 				//hopefully will show the stats of the parabola 
 				document.getElementById("angle").innerHTML = ("Angle: "+ getAngle(event.acceleration.x,event.acceleration.y,event.acceleration.z));
 				document.getElementById("maxYHeight").innerHTML = ("MaxYHeight: "+ getYMax(findProjInitVel(event.acceleration.y, event.interval, .145)));
