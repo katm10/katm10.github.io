@@ -11,7 +11,7 @@
 <script>
 	window.onload = function() {
 
-		function finalVelocity(initialVel, accel, time) {
+function finalVelocity(initialVel, accel, time) {
 			console.log("Final velocity: " + (initialVel + accel * time))
 			return (initialVel + accel * time);
 		}
@@ -104,33 +104,51 @@
 			return dispX;
 			
 		}
-
+		
+		//function for getting max y
+		function getYMax(initYVel) {
+			return -initYVel/(2*-9.80665)
+		}
+		
+		//function for getting angle formed initially from x-z plane (ground plane)
+		function getAngle(xAcc,yAcc,zAcc) {
+			var sinAngle =  yAcc/Math.sqrt(xAcc*xAcc+yAcc*yAcc+zAcc*zAcc);
+			return Math.asin(sinAngle);
+		}
 
 		//function for getting scaled x and y values
-		function getValues(xAcc, yAcc, time) {
+		function getValues(xAcc, yAcc, zAcc, time) {
 			var tenth = findTotXDisp(xAcc, yAcc, time) / 10;
 			var xvals = new Array(10);
 			var yvals = new Array(10);
+			var zvals = new Array(10);
 			var scaledx = new Array(10);
 			var scaledy = new Array(10);
+			var scaledz = new Array(10);
 			for (var i = 1; i <= 10; i++) {
 				scaledx[i] = i;
 				xvals[i] = tenth * i
-				var xInitVel = findProjInitVel(xAcc, time, .145)
-				var yInitVel = findProjInitVel(yAcc, time, .145)
-				var tVal = getTfromX(xvals[i], xInitVel)
-				yvals[i] = distanceGA(yInitVel, tVal, -9.80665)
-				scaledy[i] = yvals[i] / tenth
+				var xInitVel = findProjInitVel(xAcc, time, .145);
+				var yInitVel = findProjInitVel(yAcc, time, .145);
+				var zInitVel = findProjInitVel(zAcc, time, .145);
+				var tVal = getTfromX(xvals[i], xInitVel);
+				yvals[i] = distanceGA(yInitVel, tVal, -9.80665);
+				zvals[i] = distanceGA(zInitVel, tVal, 0);
+				scaledy[i] = yvals[i] / tenth;
+				scaledz[i] = zvals[i] / tenth;
 			}
 			console.log("xvals: " + xvals)
 			console.log("yvals: " + yvals)
+			console.log("zvals: " + zvals)
 			console.log("scaledx: " + scaledx)
 			console.log("scaledy: " + scaledy)
-			return [scaledx, scaledy]
+			console.log("scaledz: " + scaledz)
+			return [scaledx, scaledy, scaledz]
 			
 
 		}
-
+		
+		//returns time elapsed from throw 
 		function getTfromX(xval, velocity) {
 			console.log("time from x: " + xval/velocity)
 			return xval / velocity;
@@ -155,7 +173,7 @@
 					event.acceleration.z + ", TIME: " +
 					event.interval
 				);
-				var values = getValues(Math.abs(event.acceleration.x), Math.abs(event.acceleration.y), Math.abs(event.interval));
+				var values = getValues(Math.abs(event.acceleration.x), Math.abs(event.acceleration.y), Math.abs(event.acceleration.z), Math.abs(event.interval));
 				var queryString = "?para1=" + values;
 				window.location.href = "ar.html"+queryString;
 

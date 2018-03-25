@@ -339,11 +339,15 @@ window.onload = function(){
 	strings = shorter.split(",,");
 	yString = strings[1];
 	xString = strings[0]
+	zString = strings[2]
 	var xVals = xString.split(",");
 	var yVals = yString.split(",");
+	var zVals = zString.split(",")
 
 	console.log("xvals: "+xVals);
 	console.log("yvals: "+yVals);
+	console.log("zvals: "+zVals);
+
 
 	var camera = document.getElementById('camera');
 	var sphere1 = document.getElementById('sphere1')
@@ -362,7 +366,8 @@ window.onload = function(){
 	for (var i = 0; i < spheres.length; i++) {
 		xvalue =  (-1*xVals[i])-4
 		yvalue =  yVals[i]
-		positions[i] = xvalue+ " "+ yvalue+" -4"
+		zvalue =  (-1*zVals[i])-4
+		positions[i] = xvalue+ " "+ yvalue+" "+zvalue
 		spheres[i].setAttribute("position", positions[i])
 	}
 	
