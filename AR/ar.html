@@ -347,12 +347,14 @@ window.onload = function(){
 	var sphere10 = document.getElementById('sphere10')
 
 	speres = [sphere1, sphere2, sphere3, sphere4, sphere5, sphere6, sphere7, sphere8, sphere9, sphere10];
-
-	for (var i = 0; i < spheres.length; i++) {
+	setTimeout(function(){
+		for (var i = 0; i < spheres.length; i++) {
 		setTimeout(function(){
 		spheres[i].style.visibility = "visible";
 		}, 2000);
 	}
+}, 10000);
+	
 	
 	camera.addEventListener('componentchanged', function (evt) {
 		switch(evt.detail.name){
