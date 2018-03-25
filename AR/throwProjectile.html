@@ -3,7 +3,7 @@
 <head>
 
 	<body>
-		<p>Version 14</p>
+		<p>Version 15</p>
 		<p id="text"></p>
 		<p id="results"></p>
 	</body>
@@ -173,8 +173,8 @@ function finalVelocity(initialVel, accel, time) {
 					event.acceleration.z + ", TIME: " +
 					event.interval
 				);
-				var values = getValues(Math.abs(event.acceleration.x), Math.abs(event.acceleration.y), Math.abs(event.acceleration.z), Math.abs(event.interval));
-				var queryString = "?para1=" + values;
+				var values = getValues((event.acceleration.x), Math.abs(event.acceleration.y), Math.abs(event.acceleration.z), Math.abs(event.interval));
+				var queryString = "?para1=" + values+ "&" + getYMax(findProjInitVel(Math.abs(event.acceleration.y), event.interval, .145)) + "&"+ getAngle((event.acceleration.x), Math.abs(event.acceleration.y), Math.abs(event.acceleration.z)) +"&"+ findTotXDisp((event.acceleration.x), Math.abs(event.acceleration.y), event.interval);
 				window.location.href = "ar.html"+queryString;
 
 			}
