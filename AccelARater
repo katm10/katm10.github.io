@@ -1,0 +1,186 @@
+<!DOCTYPE HTML>
+<!--
+	Massively by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>accelARate</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-loading">
+
+		<!-- Wrapper -->
+			<div id="wrapper" class="fade-in">
+
+				<!-- Intro -->
+					<div id="intro">
+						<body background="Title_Image.jpg">
+						<h1>accel<u>AR</u>ate</h1>
+						<p>Accelerate students' learning with augmented reality</p>
+						<ul class="actions">
+							<li><a href="#header" class="button icon solo fa-arrow-down scrol thingy">Continue</a></li>
+						</ul>
+					</div>
+
+				<!-- Header -->
+					<header id="header">
+						<a href="index.html" class="logo">AccelARate</a>
+					</header>
+
+			
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Featured Post -->
+							<article class="post featured">
+								<header class="major">
+									<span class="date"> Φ </span>
+									<h2><a href="#">Our Mission</a></h2>
+									<p>With the use of augmented reality,
+									we wish to help students become more interested and engaged in their physics classes. Try our program by clicking below!</p>
+								</header>
+								<a href="#" class="image main"><img src="images/pic01.jpg" alt="" /></a>
+								<ul class="actions">
+									<li><a href="#" class="button big">Start</a></li>
+								</ul>
+							</article>
+
+						<!-- Posts -->
+							<section class="posts">
+								<article>
+									<header>
+										
+										<h2><a href="#">Why use<br />
+										accelARate?</a></h2>
+									</header>
+									<a href="#" class="image fit"><img src="images/pic02.jpg" alt="" /></a>
+									<p>AccelARate is a simple, engaging way to understand projectile motion. All you need is your phone and you'll be a physics master in no time! </p>
+									<ul class="actions">
+									</ul>
+								</article>
+								<article>
+									<header>
+										
+										<h2><a href="#">Our<br />
+										Purpose</a></h2>
+
+										</h2>
+
+									
+									</header>
+									<a href="#" class="image fit"><img src="images/pic03.jpg" alt="" /></a>
+									<p>We at AccelARate understand and empathize with teachers who are underfunded and are unable to pay for expensive resources to assist their lectures. We hope to solve this problem without emptying pockets.</p>
+									<ul class="actions">
+									</ul>
+								</article>
+								<article>
+									<header>
+										<h2><a href="#">#AccelarateUnderstands</h2>
+									</header>
+									<a href="#" class="image fit"><img src="https://imgur.com/a/I7koq" alt="" /></a>
+									<p>AccelARate was made by students, for students. We at AccelARate have struggled through projectile motion just as you have, and we're here to make it easier for the next class.</p>
+									<ul class="actions">
+									</ul>
+								</article>
+								<article>
+									<header>
+										<h2><a href="#">Calling all Athletes</a></h2>
+									</header>
+									<a href="#" class="image fit"><img src="images/pic05.jpg" alt="" /></a>
+									<p>Although AccelARate is for all students, it is especially helpful for those who are more athletically inclined. Just imagine the white sphere as a basketball, baseball, or any of your liking and learn!</p>
+									<ul class="actions">
+									</ul>
+								</article>
+								<article>
+									<header>
+										<h2><a href="#">Accelerate<br />
+										for <u>Teachers</u></a></h2>
+									</header>
+									<a href="#" class="image fit"><img src="images/pic06.jpg" alt="" /></a>
+									<p>Have you ever found it difficult to explain projectile motion to your students? If so, AccelARate is the web app for you. Simply access the free interactive app and engage your students in the world of physics!</p>
+									<ul class="actions">
+									</ul>
+								</article>
+								<article>
+									<header>
+										<h2><a href="#">Accelerate<br /> for <u>Students</u></a></h2>
+									</header>
+									<a href="#" class="image fit"><img src="images/pic07.jpg" alt="" /></a>
+									<p> Are you aiming for a 5 on the AP Physics exam? Do you struggle with the bewildering topic of projectile motion? Well, AccelARate is here to save the day -- and your grade! 😉</p>
+									<ul class="actions">
+									</ul>
+								</article>
+							</section>
+
+					</div>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<section>
+							<form method="post" action="#">
+								<div class="field">
+									<label for="name">Name</label>
+									<input type="text" name="name" id="name" />
+								</div>
+								<div class="field">
+									<label for="email">Email</label>
+									<input type="text" name="email" id="email" />
+								</div>
+								<div class="field">
+									<label for="message">Message</label>
+									<textarea name="message" id="message" rows="3"></textarea>
+								</div>
+								<ul class="actions">
+									<li><input type="submit" value="Send Message" /></li>
+								</ul>
+							</form>
+						</section>
+						<section class="split contact">
+							<section class="alt">
+								<h3>Address</h3>
+								<p>You will never find us<br />
+								BWAHAHAHAHAHA</p>
+							</section>
+							<section>
+								<h3>Phone</h3>
+								<p><a href="#">(LOL) LOL-LOLL)</a></p>
+							</section>
+							<section>
+								<h3>Email</h3>
+								<p><a href="#">accelARate@LAHacks.com</a></p>
+							</section>
+							<section>
+								<h3>Social</h3>
+								<ul class="icons alt">
+									<li><a href="#" class="icon alt fa-twitter"><span class="label">Twitter</span></a></li>
+									<li><a href="#" class="icon alt fa-facebook"><span class="label">Facebook</span></a></li>
+									<li><a href="#" class="icon alt fa-instagram"><span class="label">Instagram</span></a></li>
+									<li><a href="#" class="icon alt fa-github"><span class="label">GitHub</span></a></li>
+								</ul>
+							</section>
+						</section>
+					</footer>
+
+				<!-- Copyright -->
+					<div id="copyright">
+						<ul><li>&copy; Made with ❤ by Accelarate</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li></ul>
+					</div>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
