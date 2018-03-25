@@ -360,8 +360,8 @@ window.onload = function(){
 	var spheres = [sphere1, sphere2, sphere3, sphere4, sphere5, sphere6, sphere7, sphere8, sphere9, sphere10];
 	var positions = Array(10)
 	for (var i = 0; i < spheres.length; i++) {
-		xvalue =  (-1*parseInt(xVals[i]))-4
-		yvalue =  (1+parseInt(yVals[i]))
+		xvalue =  (-1*xVals[i])-4
+		yvalue =  yVals[i]+1
 		positions[i] = xvalue+ " "+ yvalue+" -4"
 		var position = xvalue+ " "+ yvalue+" -4";
 		spheres[i].setAttribute("position", position)
