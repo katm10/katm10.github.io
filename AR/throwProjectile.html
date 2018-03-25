@@ -3,46 +3,49 @@
 <head>
 
 	<body>
-		<p id="text"></p>
+		<p id="maxY"></p>
+		<p id="angle"></p>
+		<p id="disp"></p>
+
 	</body>
 </head>
 <script>
 	window.onload = function() {
 
 function finalVelocity(initialVel, accel, time) {
-			document.getElementById("text").innerHTML += ("Final velocity: " + (initialVel + accel * time))
+			console.log("Final velocity: " + (initialVel + accel * time))
 			return (initialVel + accel * time);
 		}
 		//calculates distance given accel
 		function distanceGA(initialVel, time, accel) {
-			document.getElementById("text").innerHTML += ("distance: " + (initialVel * time + (.5) * accel * time * time))
+			console.log("distance: " + (initialVel * time + (.5) * accel * time * time))
 			return initialVel * time + (.5) * accel * time * time;
 			
 		}
 		//calc dist given velocity
 		function distanceGV(initialVel, finalVel, time) {
-			document.getElementById("text").innerHTML += ("distance: " + (avgVel * time))
+			console.log("distance: " + (avgVel * time))
 			var avgVel = (finalVel + initialVel) / 2;
 			return avgVel * time;
 			
 		}
 		//will give position in Aframe's weird int things, -9.80665  for 
 		function findPosition(accel, initVel, initCoor, elapTime) {
-			document.getElementById("text").innerHTML += ("position: " + (accel * elapTime * elapTime + initVel * elapTime + initCoor))
+			console.log("position: " + (accel * elapTime * elapTime + initVel * elapTime + initCoor))
 			return accel * elapTime * elapTime + initVel * elapTime + initCoor;
 			
 		}
 		//force applied from phone,  will need to be used separately for x, y and z
 		function findForce(accel) {
 			var phoneMass = .13;
-			document.getElementById("text").innerHTML += ("force: " + (accel*phoneMass))
+			console.log("force: " + (accel*phoneMass))
 			return accel * phoneMass;
 			
 		}
 		//will get acceleration for projectile, pass in force calculated from phone's mass 
 		//and the mass of that projectile (ex: pingpong ball, baseball)
 		function findAcc(force, mass) {
-			document.getElementById("text").innerHTML += ("acceleration: " + (force / mass))
+			console.log("acceleration: " + (force / mass))
 			return force / mass;
 			
 		}
@@ -51,7 +54,7 @@ function finalVelocity(initialVel, accel, time) {
 			var initForce = findForce(phoneAcc);
 			var accNoGrav = findAcc(initForce, projMass);
 			var projInitVel = finalVelocity(0, accNoGrav, time);
-			document.getElementById("text").innerHTML += ("inital velocity: " + projInitVel)
+			console.log("inital velocity: " + projInitVel)
 			return projInitVel;
 			
 		}
@@ -73,28 +76,32 @@ function finalVelocity(initialVel, accel, time) {
 				timeHitFloor = timeHitFloor2;
 			}
 			*/
-			document.getElementById("text").innerHTML += ("time hit floor: " + (timeHitFloor))
+			console.log("time hit floor: " + (timeHitFloor))
 			return timeHitFloor;
 			
 		}
 		//pass in phone's xAcc, yAcc, time intvl of acc
 		function findTotXDisp(xAcc, yAcc, time) {
-			document.getElementById("text").innerHTML += ("total x displacement: " + (dispX))
+			console.log("total x displacement: " + (dispX))
 			var initXVel = findProjInitVel(xAcc, time, .145);
 			var timeHitFloor = findTimeFromYAcc(yAcc, time);
 			var dispX = initXVel * timeHitFloor
+			document.getElementById("disp").innerHTML ="X Displacement: "+ dispX + " meters"
 			return dispX;
 			
 		}
 		
 		//function for getting max y
 		function getYMax(initYVel) {
-			return -initYVel/(2*-9.80665)
+			var y = -initYVel/(2*-9.80665)
+			document.getElementById("maxY").innerHTML = "Maximum Height: "+y + " meters"
+			return y
 		}
 		
 		//function for getting angle formed initially from x-z plane (ground plane)
 		function getAngle(xAcc,yAcc,zAcc) {
 			var sinAngle =  yAcc/Math.sqrt(xAcc*xAcc+yAcc*yAcc+zAcc*zAcc);
+			document.getElementById("angle").innerHTML = "Angle: "+ Math.asin(sinAngle) + " degrees"
 			return Math.asin(sinAngle);
 		}
 		//function for getting scaled x and y values
@@ -118,19 +125,19 @@ function finalVelocity(initialVel, accel, time) {
 				scaledy[i] = yvals[i] / tenth;
 				scaledz[i] = zvals[i] / tenth;
 			}
-			document.getElementById("text").innerHTML += ("xvals: " + xvals)
-			document.getElementById("text").innerHTML += ("yvals: " + yvals)
-			document.getElementById("text").innerHTML += ("zvals: " + zvals)
-			document.getElementById("text").innerHTML += ("scaledx: " + scaledx)
-			document.getElementById("text").innerHTML += ("scaledy: " + scaledy)
-			document.getElementById("text").innerHTML += ("scaledz: " + scaledz)
+			console.log("xvals: " + xvals)
+			console.log("yvals: " + yvals)
+			console.log("zvals: " + zvals)
+			console.log("scaledx: " + scaledx)
+			console.log("scaledy: " + scaledy)
+			console.log("scaledz: " + scaledz)
 			return [scaledx, scaledy, scaledz]
 			
 		}
 		
 		//returns time elapsed from throw 
 		function getTfromX(xval, velocity) {
-			document.getElementById("text").innerHTML += ("time from x: " + xval/velocity)
+			console.log("time from x: " + xval/velocity)
 			return xval / velocity;
 			
 		}
@@ -138,7 +145,7 @@ function finalVelocity(initialVel, accel, time) {
 			window.addEventListener("devicemotion", motion, false);
 		}
 		else {
-			document.getElementById("text").innerHTML += ("DeviceMotionEvent is not supported");
+			console.log("DeviceMotionEvent is not supported");
 		}
 		function motion(event) {
 			if ((event.acceleration.x + event.acceleration.y + event.acceleration.z) > 5) {
