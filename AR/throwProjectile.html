@@ -149,12 +149,7 @@ function finalVelocity(initialVel, accel, time) {
 		}
 		function motion(event) {
 			if ((event.acceleration.x + event.acceleration.y + event.acceleration.z) > 5) {
-				document.getElementById("text").innerHTML = ("Accelerometer: " +
-					event.acceleration.x + ", " +
-					event.acceleration.y + ", " +
-					event.acceleration.z + ", TIME: " +
-					event.interval
-				);
+
 				var values = getValues(Math.abs(event.acceleration.x), Math.abs(event.acceleration.y), Math.abs(event.acceleration.z), Math.abs(event.interval));
 				var queryString = "?para1=" + values;
 				window.location.href = "ar.html"+queryString;
