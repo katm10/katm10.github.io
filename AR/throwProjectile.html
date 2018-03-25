@@ -1,5 +1,9 @@
 <html>
 <head>
+	<body>
+		<p id="text">
+		</p>
+	</body>
 <script>
 	window.onload = function(){
 		if(window.DeviceMotionEvent){
@@ -7,23 +11,22 @@
 		}else{
 		  console.log("DeviceMotionEvent is not supported");
 		}
-		with the handler:
 
 		function motion(event){
-		  console.log("Accelerometer: "
-		    + event.accelerationIncludingGravity.x + ", "
-		    + event.accelerationIncludingGravity.y + ", "
-		    + event.accelerationIncludingGravity.z
+	if((event.acceleration.x+event.acceleration.y+event.acceleration.z) > 10){
+		  document.getElementById("text").innerHTML=("Accelerometer: "
+		    + event.acceleration.x + ", "
+		    + event.acceleration.y + ", "
+		    + event.acceleration.z
 		  );
+	}
 		}
-		And for magnetometer a following event handler has to be registered:
-
+/*
 		if(window.DeviceOrientationEvent){
 		  window.addEventListener("deviceorientation", orientation, false);
 		}else{
 		  console.log("DeviceOrientationEvent is not supported");
 		}
-		with a handler:
 
 		function orientation(event){
 		  console.log("Magnetometer: "
@@ -32,5 +35,6 @@
 		    + event.gamma
 		  );
 		}
+		*/
 	}
 </script>
