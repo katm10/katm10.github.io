@@ -3,7 +3,7 @@
 <head>
 
 	<body>
-		<p>Version 6</p>
+		<p>Version 7</p>
 		<p id="text"></p>
 		<p id="results"></p>
 	</body>
@@ -156,7 +156,7 @@
 					event.interval
 				);
 				var values = getValues(event.acceleration.x, event.acceleration.y, event.interval);
-				var queryString = "?para1=" + values;
+				var queryString = values;
 				window.location.href = "ar.html"+queryString;
 
 			}

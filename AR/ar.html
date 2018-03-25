@@ -335,11 +335,15 @@ AFRAME.registerComponent('gps-place', {
 window.onload = function(){
 	
 	var queryString = decodeURIComponent(window.location.search);
-	queryString = queryString.substring(1);
-	xString = queryString.substring(1,20);
-	yString = queryString.substring(22);
+	shorter = queryString.substring(1);
+	strings = shorter.split(",,");
+	yString = strings[1];
+	xString = strings[0]
 	var xVals = xString.split(",");
 	var yVals = yString.split(",");
+
+	console.log("xvals: "+xVals);
+	console.log("yvals: "+yVals);
 
 	var camera = document.getElementById('camera');
 	var sphere1 = document.getElementById('sphere1')
