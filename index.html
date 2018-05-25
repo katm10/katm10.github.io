@@ -30,7 +30,8 @@
 						<li><a href="#two">Things I Can Do</a></li>
 						<li><a href="#three">A Few Accomplishments</a></li>
 						<li><a href="#four">Resume</a></li>
-						<li><a href="#five">Contact</a></li>
+						<li><a href="#five">Final</a></li>
+						<li><a href="#six">Contact</a></li>
 					</ul>
 				</nav>
 				<footer>
@@ -130,10 +131,66 @@
 								</div>
 							</section>
 
-							
+						<!-- five -->
+						<section id="five">
+								<div class="container">
+								<div class="row uniform">
+
+									<div class="6u 12u(xsmall)">
+										<h3>Final Project</h3>
+										<br>
+										<a href="https://katm10.github.io/images/APCSFinal.png" class="image"><img src="images/APCSFinal.png" height="300" alt="" /></a>
+										<ul>
+											<li><b>GeneticAlgo:</b> This class contains all of the code to take the best schedules, cross them over, mutate them, and create new generations of schedules.</li>
+											<li><b>Dept:</b> This class contains academic departments (ie. Math, Social Studies, English, Science, etc) which each contain the corresponding courses that fit within them.</li>
+											<li><b>Data:</b> This class initializes all of the Dept, Course, Student, and Teacher data to be used in the genetic algorithm.</li>
+											<li><b>Driver:</b>This calls the Data, Population, GeneticAlgo, Scheduler, and Student classes to allow the user to interact with the programs.</li>
+											<li><b>Population:</b> This creates lists of Schedulers and sorts them based on their fitness.</li>
+											<li><b>Scheduler:</b> This class contains the code to randomly create a schedule, calculate its fitness, print schedules, and interact with the Student class.</li>
+											<li><b>Course:</b> This class contains all of the information about a course, like its name, id, and the teachers who can teach it.</li>
+											<li><b>Class:</b> This is a subclass of Course. It contains the more specific information about a class, like the period, the teacher, and which students are enrolled.</li>
+											<li><b>Student:</b> This contains information on individual students, like their name, grade, GPA, courses they want, and classes they are enrolled in.</li>
+											<li><b>Person:</b> This is an interface which both Student and Teacher extend.</li>
+											<li><b>Teacher:</b> This contains information on individual teachers, like their name and id.</li>
+										</ul>
+									</div>
+									<div class="features">
+										<article>
+											<a href="https://katm10.github.io/images/input1.JPG" class="image"><img src="images/input1.JPG" alt="" /></a>
+											<div class="inner">
+												<h4>Premade Input Data</h4>
+												<p>When starting the program, the user can either input their own data or use premade data from the Data class. Here is an example of a user using premade data.</p>
+											</div>
+										</article>
+										<article>
+											<a href="https://katm10.github.io/images/output1.JPG" class="image"><img src="images/output1.JPG" alt="" /></a>
+											<div class="inner">
+												<h4>Output</h4>
+												<p>Once the user inputs data, the console prints out several hundred lines of code to show its status and the fitness of each generation. Then, it will either find a perfect schedule or quit after 5555 generations and print the best schedule of the last generation.</p>
+											</div>
+										</article>
+										<article>
+											<a href="https://katm10.github.io/images/input2.JPG" class="image"><img src="images/input2.JPG" alt="" /></a>
+											<div class="inner">
+												<h4>User-Inputted Data</h4>
+												<p>When starting the program, the user can either input their own data or use premade data from the Data class. Here is an example of a user inputting their own data. There are several more questions in a similar format that come after this to ask about department and student information.</p>
+											</div>
+										</article>
+										<article>
+											<a href="https://katm10.github.io/images/output2.JPG" class="image"><img src="images/output2.JPG" alt="" /></a>
+											<div class="inner">
+												<h4>Output</h4>
+												<p>Once the user inputs data, the console prints out several hundred lines of code to show its status and the fitness of each generation. Then, it will either find a perfect schedule or quit after 5555 generations and print the best schedule of the last generation. Since this is user inputted data, it takes a really long time to type out a lot of student info, so this output is only for one student, making it much shorter.</p>
+											</div>
+										</article>
+									</div>
+									<p>Check out the code on Github: <a href="https://github.com/katm10/APCS-Final">github.com/katm10/APCS-Final</a> I wanted to challenge myself and learn some new concepts for the Spring semester project, so I learned how to use genetic algorithms and incorporate them into my project from last semester. However, it was pretty difficult, so the fitness only improves a tiny bit over time, and as you can see, the output is not perfect and has many impossible scenarios. The way that the program works it that it creates an initial schedule by just randomly choosing a teacher, a period, and students for each class using the Math.random() function. Then, after initializing several of these, it calculates each of their fitnesses based on how many conflicts there are, like having a teacher or student have two classes during the same period or not giving a student enough classes to graduate. The best ones are then "cross over" and the program uses Math.random() once again to choose the schedule that will move on. This one is then mutated by changing one of its classes, but I think this is where I messed up since there are few mutations from the initial to the final product. </p>
+								</div>
+								</div>
+							</section>	
 
 						<!-- Five -->
-						<section id="five">
+						<section id="six">
 								<div class="container">
 									<h3>Contact Me</h3>
 									<p>Come say hi!</p>
